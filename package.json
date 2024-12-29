@@ -1,0 +1,60 @@
+{
+  "name": "@nodegeeks/ui-components",
+  "version": "0.1.0",
+  "description": "A collection of reusable UI components built with React and AWS Amplify UI",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "next dev",
+    "build": "rollup -c",
+    "test": "jest",
+    "lint": "eslint . --fix",
+    "prepare": "npm run build"
+  },
+  "peerDependencies": {
+    "@aws-amplify/ui-react": "^6.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@aws-amplify/ui-react": "^6.1.13",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "rollup": "^4.12.0",
+    "rollup-plugin-dts": "^6.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.45",
+    "tailwindcss": "^3.4.10",
+    "typescript": "^5.4.5",
+    "react": "^18",
+    "react-dom": "^18",
+    "@testing-library/react": "^14.3.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "@types/jest": "^29.5.14"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "ui",
+    "components",
+    "aws-amplify"
+  ],
+  "author": "NodeGeeks",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodegeeks/ui-components"
+  }
+}
