@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Flex, CheckboxField, Text, Button, View, Input } from "@aws-amplify/ui-react";
+import { Button, CheckboxField, Flex, Input, Text, View } from "@aws-amplify/ui-react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface Option {
   value: string;
@@ -103,4 +103,5 @@ const MultiSelectField: React.FC<MultiSelectFieldProps> = ({ options, onChange, 
   );
 };
 
-export default MultiSelectField;
+export { MultiSelectField };
+

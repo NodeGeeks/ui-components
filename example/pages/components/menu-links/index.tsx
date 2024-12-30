@@ -1,4 +1,4 @@
-import MenuLinks from "@/components/menu-links";
+import { MenuLinks } from "@components";
 
 const MenuLinksExample = () => {
   const menuItems = [

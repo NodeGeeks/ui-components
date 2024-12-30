@@ -1,6 +1,6 @@
 import { Button, Flex } from "@aws-amplify/ui-react";
 import React, { useEffect, useState } from "react";
-import DynamicInput from "../dynamic-input";
+import { DynamicInput } from "../dynamic-input";
 
 export enum FormFieldType {
   Text = "text",
@@ -136,4 +136,4 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ data, onChange, onSubmit, opt
   );
 };
 
-export default DynamicForm;
+export { DynamicForm };

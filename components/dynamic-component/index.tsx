@@ -29,4 +29,4 @@ const DynamicComponent: React.FC<DynamicComponentProps> = ({ options }) => {
   return <Component {...props}>{renderedChildren}</Component>;
 };
 
-export default DynamicComponent;
+export { DynamicComponent };

@@ -1,4 +1,4 @@
-import Modal from "@/components/modal";
+import { Modal } from "@components";
 import { Button } from "@aws-amplify/ui-react";
 import { useState } from "react";
 

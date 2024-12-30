@@ -51,4 +51,4 @@ const MenuLinks: React.FC<MenuLinksProps> = ({ items, label }) => {
   );
 };
 
-export default MenuLinks;
+export { MenuLinks };

@@ -98,4 +98,5 @@ const SortableTable: React.FC<TableProps> = ({ data, columns, filter = false, fi
   );
 };
 
-export default SortableTable;
+export { SortableTable };
+

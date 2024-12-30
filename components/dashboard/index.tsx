@@ -1,6 +1,6 @@
 import { View } from "@aws-amplify/ui-react";
 import React from "react";
-import Panel from "../panel";
+import { Panel } from "../panel";
 
 interface PanelConfig {
   id: string;
@@ -37,4 +37,4 @@ const Dashboard: React.FC<DashboardProps> = ({ panels }) => {
   );
 };
 
-export default Dashboard;
+export { Dashboard };

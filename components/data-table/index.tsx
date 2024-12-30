@@ -1,8 +1,8 @@
 import { Button } from "@aws-amplify/ui-react";
 import React, { useCallback, useEffect, useState } from "react";
-import DynamicForm from "../dynamic-form";
-import Modal from "../modal";
-import SortableTable from "../table";
+import { DynamicForm } from "../dynamic-form";
+import { Modal } from "../modal";
+import { SortableTable } from "../table";
 
 interface DataTableProps {
   model: string;
@@ -109,4 +109,4 @@ const DataTable: React.FC<DataTableProps> = ({ model, columns, client, subscribe
   );
 };
 
-export default DataTable;
+export { DataTable };

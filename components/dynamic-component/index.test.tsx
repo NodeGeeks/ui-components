@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import DynamicComponent from "./";
+import { DynamicComponent } from "./";
 
 describe("DynamicComponent", () => {
   it("renders a Text component", () => {

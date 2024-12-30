@@ -1,7 +1,7 @@
 import { Flex, Input, SwitchField, Text } from "@aws-amplify/ui-react";
 import React, { useCallback, useEffect, useState } from "react";
 
-export enum FormFieldType {
+enum FormFieldType {
   Text = "text",
   Number = "number",
   Date = "date",
@@ -122,4 +122,4 @@ const DynamicInput: React.FC<DynamicInputProps> = ({ data, path, onChange, label
   );
 };
 
-export default DynamicInput;
+export { DynamicInput };

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Flex, Text, View, Input, Button } from "@aws-amplify/ui-react";
+import { Button, Flex, Input, Text, View } from "@aws-amplify/ui-react";
+import React, { useEffect, useState } from "react";
 
-export interface AutocompleteProps<T> {
+interface AutocompleteProps<T> {
   options: T[];
   displayProperty: keyof T;
   valueProperty: keyof T;
@@ -93,4 +93,5 @@ function Autocomplete<T>({
   );
 }
 
-export default Autocomplete;
+export { Autocomplete };
+

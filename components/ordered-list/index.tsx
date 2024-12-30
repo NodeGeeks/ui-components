@@ -1,5 +1,5 @@
+import { Card, Flex, Icon, View } from "@aws-amplify/ui-react";
 import React, { useState } from "react";
-import { Card, Flex, View, Icon } from "@aws-amplify/ui-react";
 
 interface OrderedListProps {
   value: Array<Record<string, any>>;
@@ -121,4 +121,4 @@ const OrderedList: React.FC<OrderedListProps> = ({ value, onOrderChange }) => {
   );
 };
 
-export default OrderedList;
+export { OrderedList };

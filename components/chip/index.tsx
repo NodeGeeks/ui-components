@@ -69,4 +69,4 @@ const Chip: React.FC<ChipProps> = ({ value, onChange, options, label }) => {
   );
 };
 
-export default Chip;
+export { Chip };

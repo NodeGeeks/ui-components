@@ -1,24 +1,18 @@
-// Components
-export { default as Autocomplete } from './autocomplete';
-export { default as Chip } from './chip';
-export { default as ColorSelection } from './color-selection';
-export { default as Dashboard } from './dashboard';
-export { default as DataTable } from './data-table';
-export { default as DynamicComponent } from './dynamic-component';
-export { default as DynamicForm } from './dynamic-form';
-export { default as DynamicInput } from './dynamic-input';
-export { default as MenuLinks } from './menu-links';
-export { default as Modal } from './modal';
-export { default as MultiSelectField } from './multi-select-field';
-export { default as OrderedList } from './ordered-list';
-export { default as Panel } from './panel';
-export { default as Popover } from './popover';
-export { default as Table } from './table';
-
-// Types
-export type { AutocompleteProps } from './autocomplete';
-export type { ChipProps } from './chip';
-export type { AmplifyUIComponentType } from './types';
+export { Autocomplete } from './autocomplete';
+export { Chip } from './chip';
+export { ColorSelection } from './color-selection';
+export { Dashboard } from './dashboard';
+export { DataTable } from './data-table';
+export { DynamicComponent } from './dynamic-component';
+export { DynamicForm } from './dynamic-form';
+export { DynamicInput } from './dynamic-input';
+export { MenuLinks } from './menu-links';
+export { Modal } from './modal';
+export { MultiSelectField } from './multi-select-field';
+export { OrderedList } from './ordered-list';
+export { Panel } from './panel';
+export { Popover } from './popover';
+export { SortableTable } from './table';
 
 // Export additional component types as they are defined
 export * from './color-selection';
@@ -34,3 +28,4 @@ export * from './ordered-list';
 export * from './panel';
 export * from './popover';
 export * from './table';
+

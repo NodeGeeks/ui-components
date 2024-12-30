@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
 import { View } from "@aws-amplify/ui-react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface PopoverProps {
   visible: boolean;
@@ -56,4 +56,4 @@ const Popover: React.FC<PopoverProps> = ({ visible, onClose, children, anchorEl 
   );
 };
 
-export default Popover;
+export { Popover };

@@ -1,7 +1,7 @@
 import { View } from "@aws-amplify/ui-react";
 import React from "react";
-import DynamicForm from "../dynamic-form";
-import Table from "../table";
+import { DynamicForm } from "../dynamic-form";
+import { Table } from "../table";
 
 interface PanelProps {
   id: string;
@@ -40,4 +40,4 @@ const Panel: React.FC<PanelProps> = ({ id, title, minWidth, minHeight, children 
   );
 };
 
-export default Panel;
+export { Panel };

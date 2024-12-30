@@ -1,7 +1,7 @@
-import outputs from "@/amplify_outputs.json";
-import MenuLinks from "@/components/menu-links";
-import "@/styles/app.css";
-import "@/styles/globals.css";
+import { MenuLinks } from "@components";
+import outputs from "./amplify_outputs.json";
+import "./styles/app.css";
+import "./styles/globals.css";
 import { Authenticator, Button, Card, Flex, Heading, Text, View } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { Amplify } from "aws-amplify";

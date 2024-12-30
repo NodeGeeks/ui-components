@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 interface ColorSelectionProps {
   value: string;
@@ -9,7 +9,6 @@ interface ColorSelectionProps {
 
 const ColorSelection: React.FC<ColorSelectionProps> = ({ value, onChange, output = "hex", className }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const triggerRef = useRef<HTMLDivElement>(null);
 
   const handleColorChange = (color: string) => {
     const formattedColor = output === "rgb" ? hexToRgb(color) : color;
@@ -35,4 +34,4 @@ const ColorSelection: React.FC<ColorSelectionProps> = ({ value, onChange, output
   );
 };
 
-export default ColorSelection;
+export { ColorSelection };

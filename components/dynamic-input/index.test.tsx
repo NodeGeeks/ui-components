@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import DynamicInput from "./";
+import { DynamicInput } from "./";
 
 describe("DynamicInput", () => {
   test("renders with default props", () => {
