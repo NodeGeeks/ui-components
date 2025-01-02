@@ -1,6 +1,6 @@
-import React from "react";
 import { Divider, Link } from "@aws-amplify/ui-react";
 import { useRouter } from "next/router";
+import React from 'react';
 
 interface MenuItem {
   path: string;
@@ -15,10 +15,10 @@ interface MenuLinksProps {
   label?: string;
 }
 
-const MenuLinks: React.FC<MenuLinksProps> = ({ items, label }) => {
+export default function MenuLinks({ items, label }: MenuLinksProps) {
   const router = useRouter();
-
-  const handleClick = React.useCallback(async (item: MenuItem) => {
+  
+  const handleClick = async (item: MenuItem) => {
     if (item.preloadData) {
       await item.preloadData();
     }
@@ -26,14 +26,14 @@ const MenuLinks: React.FC<MenuLinksProps> = ({ items, label }) => {
       pathname: item.path,
       query: item.params,
     });
-  }, [router]);
+  };
 
   return (
     <div className="mb-2">
       {label ? <span className="text-lg">{label}</span>: null}
       <nav className="grid grid-cols-1">
         {items.map((item, index) => (
-          <React.Fragment key={item.path}>
+          <div key={item.path}>
             <Link
               className="min-w-full m-2"
               onClick={() => handleClick(item)}
@@ -44,11 +44,9 @@ const MenuLinks: React.FC<MenuLinksProps> = ({ items, label }) => {
             {index < items.length - 1 && (
               <Divider className="divide-red-500" size="small" orientation="horizontal" />
             )}
-          </React.Fragment>
+          </div>
         ))}
       </nav>
     </div>
   );
-};
-
-export { MenuLinks };
+}

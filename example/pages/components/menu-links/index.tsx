@@ -1,6 +1,8 @@
-import { MenuLinks } from "@components";
+import React from 'react';
+import MenuLinks from "@components/menu-links";
+import type { NextPage } from 'next';
 
-const MenuLinksExample = () => {
+const MenuLinksExample: NextPage = () => {
   const menuItems = [
     {
       path: "/home",

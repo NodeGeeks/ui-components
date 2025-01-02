@@ -7,6 +7,10 @@ const __dirname = path.dirname(__filename);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    externalDir: true
+  },
+  transpilePackages: ['@aws-amplify/ui-react', '@components'],
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -14,7 +18,7 @@ const nextConfig = {
       '@styles': path.resolve(__dirname, './styles')
     };
     return config;
-  },
+  }
 };
 
 export default nextConfig;

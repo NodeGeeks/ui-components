@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
@@ -11,14 +12,21 @@
     "noEmit": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
     "jsx": "preserve",
     "incremental": true,
     "paths": {
+      "@components/*": [
+        "../components/*"
+      ],
       "@components": [
         "../components"
       ]
     },
+    "baseUrl": ".",
     "types": [
       "jest",
       "ts-jest",
@@ -31,7 +39,9 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "../components/**/*.ts",
+    "../components/**/*.tsx"
   ],
   "exclude": [
     "node_modules",
