@@ -18,3 +18,13 @@ The Panel component creates a container for content within a dashboard or layout
 
 ## Usage
 This component is typically used within a Dashboard component to create flexible, customizable layouts.
+
+## Example Usage
+```jsx
+<Panel id="panel1" title="Panel 1" minWidth={300} minHeight={200}>
+  <div>Content for Panel 1</div>
+</Panel>
+
+<Panel id="panel2" title="Panel 2" minWidth={300} minHeight={200}>
+  <div>Content for Panel 2</div>
+</Panel>

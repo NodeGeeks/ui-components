@@ -16,3 +16,18 @@ The DynamicComponent is a flexible wrapper that allows for dynamic rendering of 
 
 ## Usage
 This component is useful for creating flexible and configurable UIs, especially when the exact structure of the UI might not be known at compile time or needs to be determined dynamically.
+
+## Example Usage
+```jsx
+const options = {
+  component: 'Button',
+  props: { label: 'Click me' },
+  children: [
+    {
+      component: 'Text',
+      props: { content: 'Nested Text' }
+    }
+  ]
+};
+
+<DynamicComponent options={options} />;

@@ -19,3 +19,38 @@ The Dashboard component provides a flexible layout for displaying multiple panel
 
 ## Usage
 This component is ideal for creating customizable dashboards or layouts where multiple pieces of content need to be displayed in an organized manner.
+
+## Example Usage
+```jsx
+import React from 'react';
+import Dashboard from './Dashboard';
+
+const panels = [
+  {
+    id: 'panel1',
+    title: 'Panel 1',
+    minWidth: 300,
+    minHeight: 200,
+    content: <div>Content for Panel 1</div>,
+  },
+  {
+    id: 'panel2',
+    title: 'Panel 2',
+    minWidth: 300,
+    minHeight: 200,
+    content: <div>Content for Panel 2</div>,
+  },
+  {
+    id: 'panel3',
+    title: 'Panel 3',
+    minWidth: 300,
+    minHeight: 200,
+    content: <div>Content for Panel 3</div>,
+  },
+];
+
+const App = () => (
+  <Dashboard panels={panels} />
+);
+
+export default App;

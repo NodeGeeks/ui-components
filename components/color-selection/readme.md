@@ -16,3 +16,22 @@ The ColorSelection component provides a color picker interface for users to sele
 
 ## Usage
 This component is useful in applications where color selection is required, such as in design tools, theme customization, or any scenario where users need to pick colors.
+
+## Example Usage
+```jsx
+import React, { useState } from 'react';
+import ColorSelection from './ColorSelection';
+
+function App() {
+  const [color, setColor] = useState('#ff0000');
+
+  return (
+    <div>
+      <h1>Color Picker</h1>
+      <ColorSelection value={color} onChange={setColor} output="hex" />
+      <ColorSelection value={color} onChange={setColor} output="rgb" />
+    </div>
+  );
+}
+
+export default App;

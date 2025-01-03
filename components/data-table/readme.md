@@ -1,7 +1,7 @@
 # DataTable Component
 
 ## Purpose
-The DataTable component provides a dynamic table interface for displaying, creating, and editing data from a specified model.
+Dynamic table interface for displaying and managing data.
 
 ## Functionality
 - Fetches and displays data from a specified model
@@ -11,10 +11,41 @@ The DataTable component provides a dynamic table interface for displaying, creat
 - Optionally subscribes to real-time updates
 
 ## Props
-- `model`: String identifier for the data model
-- `columns`: Array of column configurations (key and label)
-- `client`: Client object for interacting with the data source
-- `subscribe`: Boolean to enable/disable real-time updates (default: false)
+- `model`: Data model identifier
+- `columns`: Column configurations
+- `client`: Data source client
+- `subscribe`: Enable real-time updates
 
-## Usage
-This component is useful for applications that need to display and manage tabular data, particularly when working with dynamic data models or when real-time updates are required.
+## Example Usage
+```tsx
+const columns = [
+  { key: 'id', label: 'ID' },
+  { key: 'name', label: 'Name' },
+  { key: 'email', label: 'Email' }
+];
+
+function UserTable() {
+  return (
+    <DataTable
+      model="User"
+      columns={columns}
+      client={apiClient}
+      subscribe={true}
+      onRowClick={(row) => console.log('Selected:', row)}
+      options={{
+        sortable: true,
+        filterable: true,
+        pagination: true
+      }}
+    />
+  );
+}
+```
+
+## Features
+- Automatic CRUD operations
+- Real-time data updates
+- Sorting and filtering
+- Pagination support
+- Row selection
+- Custom cell rendering
