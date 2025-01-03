@@ -1,9 +1,10 @@
 /* eslint-disable testing-library/no-node-access */
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import DynamicForm from "../dynamic-form";
-import SortableTable from "../table";
-import Panel from "./";
+import React from "react";
+import { DynamicForm } from "../dynamic-form";
+import { SortableTable } from "../table";
+import { Panel } from "./";
 
 describe("Panel", () => {
   it("renders correctly with title and children", () => {

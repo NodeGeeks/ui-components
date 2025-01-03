@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import OrderedList from "./";
+import React from "react";
+import { OrderedList } from "./";
 
 describe("OrderedList", () => {
   const mockData = [

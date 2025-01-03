@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import Autocomplete from ".";
+import React from "react";
+import { Autocomplete } from ".";
 
 describe("Autocomplete", () => {
   const mockOptions = [

@@ -1,7 +1,7 @@
 import { View } from "@aws-amplify/ui-react";
 import React from "react";
 import { DynamicForm } from "../dynamic-form";
-import { Table } from "../table";
+import { SortableTable } from "../table";
 
 interface PanelProps {
   id: string;
@@ -30,7 +30,7 @@ const Panel: React.FC<PanelProps> = ({ id, title, minWidth, minHeight, children 
       </View>
       <View as="div" className="panel-body">
         {React.Children.map(children, (child) => {
-          if (React.isValidElement(child) && (child.type === Table || child.type === DynamicForm)) {
+          if (React.isValidElement(child) && (child.type === SortableTable || child.type === DynamicForm)) {
             return child;
           }
           return null;

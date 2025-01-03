@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import MultiSelectField from ".";
+import React from "react";
+import { MultiSelectField } from ".";
 
 const mockOptions = [
   { value: "option1", label: "Option 1" },
