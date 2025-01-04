@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { DataTable } from "./";
 
@@ -10,7 +10,7 @@ const mockClient = {
         { id: "1", name: "John Doe" },
         { id: "2", name: "Jane Smith" },
       ]}),
-      subscribe: jest.fn().mockReturnValue({
+      observeQuery: jest.fn().mockReturnValue({
         subscribe: jest.fn().mockReturnValue({
           unsubscribe: jest.fn(),
         }),
@@ -32,35 +32,40 @@ describe("DataTable", () => {
   it("renders the table with data", async () => {
     render(<DataTable model="Todo" columns={mockColumns} client={mockClient} />);
 
-    expect(screen.getByText("John Doe")).toBeInTheDocument();
-    expect(screen.getByText("Jane Smith")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("John Doe")).toBeInTheDocument();
+      expect(screen.getByText("Jane Smith")).toBeInTheDocument();
+    });
   });
 
   it("opens create modal when create button is clicked", async () => {
     render(<DataTable model="Todo" columns={mockColumns} client={mockClient} />);
 
-    fireEvent.click(screen.getByText("Create New Record"));
-
-    expect(screen.getByText("Create New Record")).toBeInTheDocument();
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId("create-record-button"));
+      expect(screen.getByTestId("dynamic-form")).toBeInTheDocument();
+    });
   });
 
   it("opens edit modal when edit button is clicked", async () => {
     render(<DataTable model="Todo" columns={mockColumns} client={mockClient} />);
 
-    fireEvent.click(screen.getAllByText("Edit")[0]);
-    expect(screen.getByText("Edit Record")).toBeInTheDocument();
+    await waitFor(() => {
+      fireEvent.click(screen.getAllByText("Edit")[0]);
+      expect(screen.getByText("Edit Record")).toBeInTheDocument();
+    });
   });
 
-  it("does not set up subscription when subscribe prop is false", () => {
+  it("does not set up subscription when subscribe prop is false", async () => {
     render(<DataTable model="Todo" columns={mockColumns} client={mockClient} subscribe={false} />);
 
-    expect(mockClient.models.Todo.subscribe).not.toHaveBeenCalled();
+    expect(mockClient.models.Todo.observeQuery).not.toHaveBeenCalled();
   });
 
   it("sets up subscription when subscribe prop is true", () => {
     render(<DataTable model="Todo" columns={mockColumns} client={mockClient} subscribe={true} />);
 
-    expect(mockClient.models.Todo.subscribe).toHaveBeenCalled();
+    expect(mockClient.models.Todo.observeQuery).toHaveBeenCalled();
   });
 
   it("unsubscribes when component unmounts", () => {
@@ -68,6 +73,6 @@ describe("DataTable", () => {
 
     unmount();
 
-    expect(mockClient.models.Todo.subscribe().subscribe().unsubscribe).toHaveBeenCalled();
+    expect(mockClient.models.Todo.observeQuery().subscribe().unsubscribe).toHaveBeenCalled();
   });
 });

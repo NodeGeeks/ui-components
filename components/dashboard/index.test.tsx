@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import { Dashboard } from ".";
 
-describe("Dashboard", () => {
+describe("Dashboard", async () => {
   it("renders panels based on provided configuration", () => {
     const panels = [
       {

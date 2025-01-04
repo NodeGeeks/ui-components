@@ -91,7 +91,12 @@ const DataTable: React.FC<DataTableProps> = ({ model, columns, client, subscribe
 
   return (
     <div>
-      <Button onClick={handleCreate}>Create New Record</Button>
+      <Button 
+        data-testid="create-record-button"
+        onClick={handleCreate}
+      >
+        Create New Record
+      </Button>
       <SortableTable data={data} columns={tableColumns} />
       <Modal
         isOpen={isModalOpen}
@@ -99,6 +104,7 @@ const DataTable: React.FC<DataTableProps> = ({ model, columns, client, subscribe
         title={editingRecord ? "Edit Record" : "Create New Record"}
       >
         <DynamicForm
+          data-testid="dynamic-form"
           data={editingRecord || {}}
           onChange={setEditingRecord}
           onSubmit={handleSave}

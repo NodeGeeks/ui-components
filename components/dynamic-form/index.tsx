@@ -94,20 +94,21 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ data, onChange, onSubmit, opt
     }
 
     try {
+      if (!model || typeof model.save !== 'function') {
+        console.error("Model is not properly defined");
+        return;
+      }
+
       if (isNewRecord) {
-        const newRecord = await DataStore.save(new model(data));
-        console.log("New record created:", newRecord);
-      } else {
-        const original = await DataStore.query(model, data.id);
+        await model.save(data);
+      } else if (data.id) {
+        const original = await model.query(data.id);
         if (original) {
-          await DataStore.save(
-            model.copyOf(original, (draft: any) => {
-              Object.assign(draft, data);
-            })
-          );
+          const draft = { ...original, ...data };
+          await model.save(draft);
         }
       }
-      console.log("Record saved successfully");
+      console.log(isNewRecord ? "New record created" : "Record updated successfully");
     } catch (error) {
       console.error("Error saving record:", error);
     }

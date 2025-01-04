@@ -19,7 +19,7 @@ interface DynamicInputProps {
   type?: string;
 }
 
-const DynamicInput: React.FC<DynamicInputProps> = ({ data, path, onChange, label, type = "text" }) => {
+const DynamicInput: React.FC<DynamicInputProps> = ({ data, path, onChange, label, type = "text", id }) => {
   const getValue = useCallback((obj: any, path: string): any => {
     try {
       const value = path.split(".").reduce((acc, part) => acc && acc[part], obj);
@@ -100,20 +100,25 @@ const DynamicInput: React.FC<DynamicInputProps> = ({ data, path, onChange, label
     }
   };
 
+  const labelId = id || path;
+
   return (
     <Flex direction="column">
       {type === FormFieldType.Boolean ? (
-        <SwitchField label={label} isChecked={inputValue} onChange={handleChange} />
+        <SwitchField id={labelId} label={label} isChecked={inputValue} onChange={handleChange} />
       ) : null}
-      {(type === FormFieldType.Text || type === FormFieldType.Number) ? (
+      {(type === FormFieldType.Text || type === FormFieldType.Number || type === FormFieldType.Date) ? (
         <>
-          {label && <Text>{label}</Text>}
+          <Text as="label" htmlFor={labelId}>{label || path.split('.').pop()}</Text>
           <Input
+            id={labelId}
+            aria-label={label || path}
             value={inputValue}
             onChange={handleChange}
             placeholder={path}
             type={type}
             hasError={!!error}
+            name={path}
           />
           {error && <Text color="red">{error}</Text>}
         </>

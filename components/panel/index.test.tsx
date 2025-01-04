@@ -10,8 +10,8 @@ describe("Panel", () => {
   it("renders correctly with title and children", () => {
     render(
       <Panel id="test-panel" title="Test Panel" minWidth="w-1/2" minHeight="h-64">
-        <SortableTable test-id="table" data={[]} columns={[]} />
-        <DynamicForm test-id="dynamic-form" data={{}} onChange={() => {}} />
+        <SortableTable data-testid="table" data={[]} columns={[]} />
+        <DynamicForm data-testid="dynamic-form" data={{}} onChange={() => {}} />
       </Panel>
     );
 
@@ -51,11 +51,11 @@ describe("Panel", () => {
     expect(panelElement).toHaveAttribute("id", "test-panel");
   });
 
-  it("only renders SortableTable and DynamicForm components as children", () => {
+  it("only renders SortableTable and DynamicForm components as children", async () => {
     render(
       <Panel id="test-panel" title="Test Panel" minWidth="w-1/2" minHeight="h-64">
-        <SortableTable test-id="table" data={[]} columns={[]} />
-        <DynamicForm test-id="dynamic-form" data={{}} onChange={() => {}} />
+        <SortableTable data-testid="table" data={[]} columns={[]} />
+        <DynamicForm data-testid="dynamic-form" data={{}} onChange={() => {}} />
         <div>This should not render</div>
       </Panel>
     );
