@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import SortableTable from "./";
+import React from "react";
+import { SortableTable } from "./";
 
 const sampleData = [
   { id: 1, name: "Alice", age: 30 },

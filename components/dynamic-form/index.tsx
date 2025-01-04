@@ -1,3 +1,4 @@
+import { DataStore } from '@aws-amplify/datastore';
 import { Button, Flex } from "@aws-amplify/ui-react";
 import React, { useEffect, useState } from "react";
 import { DynamicInput } from "../dynamic-input";
@@ -94,12 +95,16 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ data, onChange, onSubmit, opt
 
     try {
       if (isNewRecord) {
-        const newRecord = await model.create(data);
-        console.log("New record created:", newRecord.data);
+        const newRecord = await DataStore.save(new model(data));
+        console.log("New record created:", newRecord);
       } else {
-        const original = await model.query(model, data.id);
+        const original = await DataStore.query(model, data.id);
         if (original) {
-          await model.update(data);
+          await DataStore.save(
+            model.copyOf(original, (draft: any) => {
+              Object.assign(draft, data);
+            })
+          );
         }
       }
       console.log("Record saved successfully");
@@ -115,9 +120,9 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ data, onChange, onSubmit, opt
     }
 
     try {
-      const toDelete = await model.query(model, data.id);
+      const toDelete = await DataStore.query(model, data.id);
       if (toDelete) {
-        await model.delete(toDelete);
+        await DataStore.delete(toDelete);
         console.log("Record deleted successfully");
       }
     } catch (error) {
