@@ -7,10 +7,6 @@ interface PanelConfig {
   title: string;
   minWidth: string;
   minHeight: string;
-  location?: {
-    neighbor: string;
-    position: "below" | "nextto";
-  };
   content: React.ReactNode;
 }
 
@@ -20,7 +16,7 @@ interface DashboardProps {
 
 const Dashboard: React.FC<DashboardProps> = ({ panels }) => {
   return (
-    <View as="div" className="dashboard-container">
+    <View as="div" className="flex flex-wrap gap-4 p-4">
       {panels.map((panel) => (
         <Panel
           key={panel.id}
@@ -28,7 +24,6 @@ const Dashboard: React.FC<DashboardProps> = ({ panels }) => {
           title={panel.title}
           minWidth={panel.minWidth}
           minHeight={panel.minHeight}
-          location={panel.location}
         >
           {panel.content}
         </Panel>

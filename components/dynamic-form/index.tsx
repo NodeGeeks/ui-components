@@ -132,7 +132,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ data, onChange, onSubmit, opt
   };
 
   return (
-    <Flex direction="column" gap="1rem">
+    <Flex direction="column" gap="1rem" data-testid="dynamic-form">
       {renderFormFields(data)}
       <Flex gap="1rem">
         <Button className="rounded-lg px-4 py-2 bg-green-700 text-green-100 hover:bg-green-800 duration-300" onClick={handleSave}>{isNewRecord ? "Create" : "Update"}</Button>

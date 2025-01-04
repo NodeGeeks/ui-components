@@ -36,15 +36,13 @@ describe("DynamicComponent", () => {
           props: { direction: "column" },
           children: [
             {
-              options:{
-                component: "Heading",
-                props: { level: 2, children: "Title" },}
+              component: "Heading",
+              props: { level: 2, children: "Title" }
             },
             {
-              options:{
                 component: "Text",
-                props: { children: "Content" },}
-            },
+              props: { children: "Content" }
+            }
           ],
         }}
       />

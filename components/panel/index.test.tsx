@@ -7,7 +7,7 @@ import { SortableTable } from "../table";
 import { Panel } from "./";
 
 describe("Panel", () => {
-  it("renders correctly with title and children", () => {
+  it("renders correctly with title and children", async () => {
     render(
       <Panel id="test-panel" title="Test Panel" minWidth="w-1/2" minHeight="h-64">
         <SortableTable data-testid="table" data={[]} columns={[]} />
@@ -21,7 +21,7 @@ describe("Panel", () => {
     expect(screen.getByTestId("dynamic-form")).toBeInTheDocument();
   });
 
-  it("applies correct CSS classes for minWidth and minHeight", () => {
+  it("applies correct CSS classes for minWidth and minHeight", async () => {
     render(
       <Panel id="test-panel" title="Test Panel" minWidth="w-1/2" minHeight="h-64">
         <div>Test content</div>
@@ -54,14 +54,20 @@ describe("Panel", () => {
   it("only renders SortableTable and DynamicForm components as children", async () => {
     render(
       <Panel id="test-panel" title="Test Panel" minWidth="w-1/2" minHeight="h-64">
-        <SortableTable data-testid="table" data={[]} columns={[]} />
-        <DynamicForm data-testid="dynamic-form" data={{}} onChange={() => {}} />
+        <SortableTable data={[]} columns={[]} />
+        <DynamicForm 
+          data={{}} 
+          onChange={() => {}}
+          data-testid="dynamic-form"
+        />
         <div>This should not render</div>
       </Panel>
     );
 
-    expect(screen.getByTestId("table")).toBeInTheDocument();
-    expect(screen.getByTestId("dynamic-form")).toBeInTheDocument();
+    // Use getByRole for table which is more reliable
+    expect(screen.getByRole('table')).toBeInTheDocument();
+    // Use getByTestId for the form
+    expect(screen.getByTestId('dynamic-form')).toBeInTheDocument();
     expect(screen.queryByText("This should not render")).not.toBeInTheDocument();
   });
 });

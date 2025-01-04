@@ -11,9 +11,16 @@ interface TableProps {
   }>;
   filter?: boolean;
   filterBy?: string;
+  'data-testid'?: string;
 }
 
-const SortableTable: React.FC<TableProps> = ({ data, columns, filter = false, filterBy }) => {
+const SortableTable: React.FC<TableProps> = ({ 
+  data, 
+  columns, 
+  filter = false, 
+  filterBy,
+  'data-testid': dataTestId
+}) => {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [filterValue, setFilterValue] = useState("");
@@ -54,7 +61,7 @@ const SortableTable: React.FC<TableProps> = ({ data, columns, filter = false, fi
   };
 
   return (
-    <Table>
+    <Table data-testid={dataTestId}>
       <TableHead>
         <TableRow>
         {columns.map((column) => (

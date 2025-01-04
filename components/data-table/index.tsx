@@ -104,7 +104,6 @@ const DataTable: React.FC<DataTableProps> = ({ model, columns, client, subscribe
         title={editingRecord ? "Edit Record" : "Create New Record"}
       >
         <DynamicForm
-          data-testid="dynamic-form"
           data={editingRecord || {}}
           onChange={setEditingRecord}
           onSubmit={handleSave}

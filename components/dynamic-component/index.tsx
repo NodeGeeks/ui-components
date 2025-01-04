@@ -1,13 +1,12 @@
 import * as UI from "@aws-amplify/ui-react";
 import React from "react";
-import { AmplifyUIComponentType } from "../types";
 
 export interface DynamicComponentProps {
   options: {
-    component: AmplifyUIComponentType;
+    component: string;
     props: Record<string, any>;
-    children?: DynamicComponentProps[];
-  };
+    children?: any[];
+  }
 }
 
 const DynamicComponent: React.FC<DynamicComponentProps> = ({ options }) => {
@@ -21,12 +20,19 @@ const DynamicComponent: React.FC<DynamicComponentProps> = ({ options }) => {
 
   const Component = UI[component as keyof typeof UI] as React.ComponentType<any>;
 
+  // If props contain children and there are no nested components, pass props directly
+  if (props.children && !children) {
+    return <Component {...props} />;
+  }
+
   // Render children if they exist
   const renderedChildren = children?.map((child, index) => (
-    <DynamicComponent key={index} {...child} />
+    <DynamicComponent key={index} options={child} />
   ));
 
-  return <Component {...props}>{renderedChildren}</Component>;
+  // Remove children from props to avoid conflicts
+  const { children: _, ...restProps } = props;
+  return <Component {...restProps}>{renderedChildren}</Component>;
 };
 
 export { DynamicComponent };
