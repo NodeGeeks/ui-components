@@ -1,6 +1,6 @@
 import { Authenticator, Button, Card, Flex, Heading, Text, View } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import MenuLinks from "@components/menu-links";
+import { MenuLinks } from "@components/menu-links";
 import { Amplify } from "aws-amplify";
 import type { AppProps } from "next/app";
 import "tailwindcss/tailwind.css";

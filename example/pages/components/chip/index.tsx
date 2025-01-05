@@ -1,4 +1,4 @@
-import Chip from "@/components/chip";
+import { Chip } from "@components/chip";
 import React, { useState } from "react";
 
 const ChipExample: React.FC = () => {
