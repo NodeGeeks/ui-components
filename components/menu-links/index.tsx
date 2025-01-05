@@ -15,7 +15,7 @@ interface MenuLinksProps {
   label?: string;
 }
 
-export default function MenuLinks({ items, label }: MenuLinksProps) {
+const MenuLinks = ({ items, label }: MenuLinksProps) => {
   const router = useRouter();
   
   const handleClick = async (item: MenuItem) => {
@@ -50,3 +50,5 @@ export default function MenuLinks({ items, label }: MenuLinksProps) {
     </div>
   );
 }
+
+export { MenuLinks };

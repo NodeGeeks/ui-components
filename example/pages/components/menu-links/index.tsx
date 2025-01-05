@@ -1,5 +1,4 @@
-import React from 'react';
-import MenuLinks from "@components/menu-links";
+import { MenuLinks } from "@components/menu-links";
 import type { NextPage } from 'next';
 
 const MenuLinksExample: NextPage = () => {

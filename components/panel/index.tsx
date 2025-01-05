@@ -41,3 +41,4 @@ const Panel: React.FC<PanelProps> = ({ id, title, minWidth, minHeight, children 
 };
 
 export { Panel };
+

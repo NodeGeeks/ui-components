@@ -127,4 +127,4 @@ const DynamicInput: React.FC<DynamicInputProps> = ({ data, path, onChange, label
   );
 };
 
-export { DynamicInput };
+export { DynamicInput, FormFieldType };
