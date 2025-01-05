@@ -11,14 +11,14 @@ describe("Dashboard", () => {
         title: "Panel 1",
         minWidth: "w-1/2",
         minHeight: "h-64",
-        content: <div>Panel 1 content</div>,
+        content: <div data-testid="panel1-content">Panel 1 content</div>,
       },
       {
         id: "panel2",
         title: "Panel 2",
         minWidth: "w-1/2",
         minHeight: "h-64",
-        content: <div>Panel 2 content</div>,
+        content: <div data-testid="panel2-content">Panel 2 content</div>,
       },
     ];
 
@@ -26,7 +26,7 @@ describe("Dashboard", () => {
 
     expect(screen.getByText("Panel 1")).toBeInTheDocument();
     expect(screen.getByText("Panel 2")).toBeInTheDocument();
-    expect(screen.getByText("Panel 1 content")).toBeInTheDocument();
-    expect(screen.getByText("Panel 2 content")).toBeInTheDocument();
+    expect(screen.getByTestId("panel1-content")).toBeInTheDocument();
+    expect(screen.getByTestId("panel2-content")).toBeInTheDocument();
   });
 });
