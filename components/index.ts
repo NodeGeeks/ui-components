@@ -20,7 +20,8 @@ export * from './dashboard';
 export * from './data-table';
 export * from './dynamic-component';
 export * from './dynamic-form';
-export * from './dynamic-input';
+// currently commented out due to forced export of FormFieldType and can't have duplicate exports
+// export * from './dynamic-input';
 export * from './menu-links';
 export * from './modal';
 export * from './multi-select-field';
