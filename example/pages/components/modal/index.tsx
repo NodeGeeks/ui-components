@@ -1,5 +1,5 @@
-import { Modal } from "@components";
 import { Button } from "@aws-amplify/ui-react";
+import { Modal } from "@components/modal";
 import { useState } from "react";
 
 export default function ModalExample() {

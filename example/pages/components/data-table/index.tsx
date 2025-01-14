@@ -1,8 +1,8 @@
-import { type Schema } from "@/amplify/data/resource";
 import { Heading } from "@aws-amplify/ui-react";
 import { DataTable } from "@components/data-table";
 import { generateClient } from "aws-amplify/api";
 import React from "react";
+import { type Schema } from '../../../amplify/data/resource';
 const client = generateClient<Schema>();
 
 const exampleColumns = [

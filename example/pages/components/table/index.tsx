@@ -1,4 +1,4 @@
-import { Table as SortableTable } from "@components";
+import { SortableTable } from "@components/table";
 import { useState } from "react";
 
 export default function ModalExample() {

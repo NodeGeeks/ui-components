@@ -1,5 +1,5 @@
-import DynamicComponent from "@/components/dynamic-component";
 import { Flex, Heading } from "@aws-amplify/ui-react";
+import { DynamicComponent } from "@components/dynamic-component";
 import React from "react";
 
 const DynamicComponentExample: React.FC = () => {

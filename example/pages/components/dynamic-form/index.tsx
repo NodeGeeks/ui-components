@@ -1,9 +1,9 @@
-import { Schema } from "@/amplify/data/resource";
-import DynamicForm from "@/components/dynamic-form";
-import { FormFieldType } from "@/components/dynamic-input";
 import { Button, Flex, Heading, Text } from "@aws-amplify/ui-react";
+import { DynamicForm } from "@components/dynamic-form";
+import { FormFieldType } from "@components/dynamic-input";
 import { generateClient } from "aws-amplify/api";
 import { useState } from "react";
+import { type Schema } from '../../../amplify/data/resource';
 
 const client = generateClient<Schema>();
 

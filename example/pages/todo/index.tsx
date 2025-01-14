@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import "@aws-amplify/ui-react/styles.css";
 import { generateClient } from "aws-amplify/data";
-import type { Schema } from "@/amplify/data/resource";
-import { Authenticator, Card, Grid, Button } from "@aws-amplify/ui-react"
-import "@aws-amplify/ui-react/styles.css"
+import { useEffect, useState } from "react";
+import { type Schema } from '../../amplify/data/resource';
 
 const client = generateClient<Schema>();
 
@@ -32,9 +31,9 @@ export default function Todo() {
     client.models.Conversation.create({});
   }
 
-  function addUserToConversation(userId: string, conversationId: string) {
-    client.models.UserConversations.create({userId, conversationId});
-  }
+  // function addUserToConversation(userId: string, conversationId: string) {
+  //   client.models.UserConversations.create({userId, conversationId});
+  // }
   
 
   return (

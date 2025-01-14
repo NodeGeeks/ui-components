@@ -1,4 +1,4 @@
-import MultiSelectField from "@/components/multi-select-field";
+import { MultiSelectField } from "@components/multi-select-field";
 import { useState } from "react";
 
 const options = [

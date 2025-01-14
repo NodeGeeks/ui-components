@@ -1,6 +1,6 @@
-import DynamicForm from "@/components/dynamic-form";
-import Panel from "@/components/panel";
-import Table from "@/components/table";
+import { DynamicForm } from "@components/dynamic-form";
+import { Panel } from "@components/panel";
+import { SortableTable } from "@components/table";
 import React from "react";
 
 const PanelExample: React.FC = () => {
@@ -13,7 +13,7 @@ const PanelExample: React.FC = () => {
         minHeight="h-64"
         location={{ neighbor: "panel-2", position: "nextto" }}
       >
-        <Table data={[]} columns={[]} />
+        <SortableTable data={[]} columns={[]} />
       </Panel>
       <Panel
         id="panel-2"

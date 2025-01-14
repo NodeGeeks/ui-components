@@ -1,4 +1,4 @@
-import OrderedList from "@/components/ordered-list";
+import { OrderedList } from "@components/ordered-list";
 
 const sampleData = [
   { id: 1, name: "Item 1", description: "Description for Item 1" },

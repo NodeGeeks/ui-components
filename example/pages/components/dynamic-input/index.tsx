@@ -1,5 +1,5 @@
-import DynamicInput, { FormFieldType } from "@/components/dynamic-input";
 import { Flex, Heading, Text } from "@aws-amplify/ui-react";
+import { DynamicInput, FormFieldType } from "@components/dynamic-input";
 import React, { useState } from "react";
 
 const DynamicInputExample: React.FC = () => {
