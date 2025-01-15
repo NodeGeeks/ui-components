@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import React from "react";
-import MenuLinks from "./";
+import { MenuLinks } from "./";
 
 const mockPush = jest.fn().mockResolvedValue(true);
 jest.mock("next/router", () => ({
