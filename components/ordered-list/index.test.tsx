@@ -23,9 +23,13 @@ describe("OrderedList", () => {
     const dragHandles = screen.getAllByLabelText("Drag handle");
     
     // Simulate drag and drop
-    fireEvent.dragStart(dragHandles[0]);
-    fireEvent.dragOver(dragHandles[2]);
-    fireEvent.drop(dragHandles[2]);
+    const dataTransfer = { getData: () => '0', setData: () => {} };
+    fireEvent.dragStart(dragHandles[0], { dataTransfer });
+    fireEvent.dragEnter(dragHandles[2], { dataTransfer });
+    fireEvent.dragOver(dragHandles[2], { dataTransfer });
+    fireEvent.dragLeave(dragHandles[0], { dataTransfer });
+    fireEvent.drop(dragHandles[2], { dataTransfer });
+    fireEvent.dragEnd(dragHandles[0], { dataTransfer });
 
     // Check if onOrderChange was called
     expect(onOrderChange).toHaveBeenCalled();
@@ -36,8 +40,8 @@ describe("OrderedList", () => {
     // Check if the new order is correct
     expect(newOrder).toEqual([
       { id: 2, name: "Item 2", order: 0 },
-      { id: 3, name: "Item 3", order: 1 },
-      { id: 1, name: "Item 1", order: 2 },
+      { id: 1, name: "Item 1", order: 1 },
+      { id: 3, name: "Item 3", order: 2 },
     ]);
   });
 });

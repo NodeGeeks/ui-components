@@ -1,16 +1,16 @@
 import { Card, Flex, Icon, View } from "@aws-amplify/ui-react";
 import React, { useState } from "react";
 
-interface OrderedListProps {
-  value: Array<Record<string, any>>;
-  onOrderChange?: (newOrder: Array<Record<string, any>>) => void;
+interface OrderedListProps<T> {
+  value: T[];
+  onOrderChange?: (items: T[]) => void;
 }
 
-const OrderedList: React.FC<OrderedListProps> = ({ value, onOrderChange }) => {
+export function OrderedList<T extends { id: number | string }>({ value, onOrderChange }: OrderedListProps<T>) {
   const [dragging, setDragging] = useState(false);
   const dragItem = React.useRef<number | null>(null);
   const dragNode = React.useRef<HTMLElement | null>(null);
-  const [items, setItems] = useState(value.map((item, index) => ({ ...item, order: index })));
+  const [items] = useState(value.map((item, index) => ({ ...item, order: index })));
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
 
   const handleDragStart = (e: React.DragEvent | React.TouchEvent, index: number) => {
@@ -36,33 +36,36 @@ const OrderedList: React.FC<OrderedListProps> = ({ value, onOrderChange }) => {
     return -1;
   };
 
-  const handleDrop = (targetIndex: number) => {
-    const currentItem = dragItem.current;
-    if (currentItem !== null && currentItem !== targetIndex) {
-      const newItems = [...items];
-      const [reorderedItem] = newItems.splice(currentItem, 1);
-      newItems.splice(targetIndex, 0, reorderedItem);
-      const updatedItems = newItems.map((item, index) => ({ ...item, order: index }));
-      setItems(updatedItems);
-      if (onOrderChange) {
-        const orderedItems = updatedItems.map(({order }) => ({ order }));
-        onOrderChange(orderedItems);
-      }
-      dragItem.current = targetIndex;
-    }
+  const handleDrop = (e: React.DragEvent, targetIndex: number) => {
+    e.preventDefault();
+    const draggedIndex = Number(e.dataTransfer.getData("text/plain"));
+    
+    if (draggedIndex === targetIndex) return;
+
+    const newItems = [...value];
+    const [draggedItem] = newItems.splice(draggedIndex, 1);
+    newItems.splice(targetIndex, 0, draggedItem);
+
+    // Ensure all properties are preserved while updating order
+    const reorderedItems = newItems.map((item, index) => ({
+      ...item,
+      order: index
+    }));
+
+    onOrderChange?.(reorderedItems);
   };
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     const targetIndex = getTargetIndex(e);
     if (targetIndex !== -1 && dragItem.current !== null && dragItem.current !== targetIndex) {
-      handleDrop(targetIndex);
+      handleDrop(e, targetIndex);
     }
   };
 
   const handleDragEnd = (e: DragEvent) => {
     const finalTargetIndex = getTargetIndex(e as unknown as React.DragEvent<HTMLDivElement>);
     if (finalTargetIndex !== -1 && dragItem.current !== null && dragItem.current !== finalTargetIndex) {
-      handleDrop(finalTargetIndex);
+      handleDrop(e as unknown as React.DragEvent, finalTargetIndex);
     }
     setDragging(false);
     setDraggedIndex(null);
@@ -120,5 +123,3 @@ const OrderedList: React.FC<OrderedListProps> = ({ value, onOrderChange }) => {
     </Flex>
   );
 };
-
-export { OrderedList };
