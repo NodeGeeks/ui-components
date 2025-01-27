@@ -1,5 +1,5 @@
 import React from "react";
-export interface AutocompleteProps<T> {
+interface AutocompleteProps<T> {
     options: T[];
     displayProperty: keyof T;
     valueProperty: keyof T;
@@ -8,4 +8,4 @@ export interface AutocompleteProps<T> {
     label?: string;
 }
 declare function Autocomplete<T>({ options, displayProperty, valueProperty, value, onChange, label }: AutocompleteProps<T>): React.JSX.Element;
-export default Autocomplete;
+export { Autocomplete };

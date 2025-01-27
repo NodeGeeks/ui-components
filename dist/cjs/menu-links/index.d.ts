@@ -9,6 +9,7 @@ interface MenuItem {
 interface MenuLinksProps {
     items: MenuItem[];
     label?: string;
+    onNavigate?: (path: string, params?: Record<string, string>) => Promise<void>;
 }
-declare const MenuLinks: React.FC<MenuLinksProps>;
-export default MenuLinks;
+declare const MenuLinks: ({ items, label, onNavigate }: MenuLinksProps) => React.JSX.Element;
+export { MenuLinks };

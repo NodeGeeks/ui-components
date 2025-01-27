@@ -16,6 +16,7 @@ export function OrderedList<T extends { id: number | string }>({ value, onOrderC
   const handleDragStart = (e: React.DragEvent | React.TouchEvent, index: number) => {
     dragItem.current = index;
     dragNode.current = e.target as HTMLElement;
+    (e as React.DragEvent).dataTransfer.setData("text/plain", index.toString());
     dragNode.current.addEventListener("dragend", handleDragEnd);
     setTimeout(() => {
       setDragging(true);

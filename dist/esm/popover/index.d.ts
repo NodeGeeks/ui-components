@@ -6,4 +6,4 @@ interface PopoverProps {
     anchorEl: HTMLElement | null;
 }
 declare const Popover: React.FC<PopoverProps>;
-export default Popover;
+export { Popover };

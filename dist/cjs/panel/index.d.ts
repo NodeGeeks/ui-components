@@ -11,4 +11,4 @@ interface PanelProps {
     children: React.ReactNode;
 }
 declare const Panel: React.FC<PanelProps>;
-export default Panel;
+export { Panel };

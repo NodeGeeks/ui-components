@@ -9,4 +9,4 @@ interface DataTableProps {
     subscribe?: boolean;
 }
 declare const DataTable: React.FC<DataTableProps>;
-export default DataTable;
+export { DataTable };

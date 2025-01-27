@@ -7,4 +7,4 @@ export interface ChipProps {
     label: string;
 }
 declare const Chip: React.FC<ChipProps>;
-export default Chip;
+export { Chip };

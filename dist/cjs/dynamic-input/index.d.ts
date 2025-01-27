@@ -1,5 +1,5 @@
 import React from "react";
-export declare enum FormFieldType {
+declare enum FormFieldType {
     Text = "text",
     Number = "number",
     Date = "date",
@@ -16,4 +16,4 @@ interface DynamicInputProps {
     type?: string;
 }
 declare const DynamicInput: React.FC<DynamicInputProps>;
-export default DynamicInput;
+export { DynamicInput, FormFieldType };

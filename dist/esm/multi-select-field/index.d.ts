@@ -9,4 +9,4 @@ interface MultiSelectFieldProps {
     label: string;
 }
 declare const MultiSelectField: React.FC<MultiSelectFieldProps>;
-export default MultiSelectField;
+export { MultiSelectField };

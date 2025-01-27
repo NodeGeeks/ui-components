@@ -1,7 +1,9 @@
 import React from "react";
-interface OrderedListProps {
-    value: Array<Record<string, any>>;
-    onOrderChange?: (newOrder: Array<Record<string, any>>) => void;
+interface OrderedListProps<T> {
+    value: T[];
+    onOrderChange?: (items: T[]) => void;
 }
-declare const OrderedList: React.FC<OrderedListProps>;
-export default OrderedList;
+export declare function OrderedList<T extends {
+    id: number | string;
+}>({ value, onOrderChange }: OrderedListProps<T>): React.JSX.Element;
+export {};

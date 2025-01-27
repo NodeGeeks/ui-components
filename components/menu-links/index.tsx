@@ -1,5 +1,4 @@
 import { Divider, Link } from "@aws-amplify/ui-react";
-import { useRouter } from "next/router";
 import React from "react";
 
 interface MenuItem {
@@ -13,19 +12,19 @@ interface MenuItem {
 interface MenuLinksProps {
   items: MenuItem[];
   label?: string;
+  onNavigate?: (path: string, params?: Record<string, string>) => Promise<void>;
 }
 
-const MenuLinks = ({ items, label }: MenuLinksProps) => {
-  const router = useRouter();
-  
+const MenuLinks = ({ items, label, onNavigate }: MenuLinksProps) => {
   const handleClick = async (item: MenuItem) => {
     if (item.preloadData) {
       await item.preloadData();
     }
-    await router.push({
-      pathname: item.path,
-      query: item.params,
-    });
+    if (onNavigate) {
+      await onNavigate(item.path, item.params);
+    } else {
+      window.location.href = item.path;
+    }
   };
 
   return (

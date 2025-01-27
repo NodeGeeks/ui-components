@@ -27,4 +27,4 @@ interface DynamicFormProps {
     model?: any;
 }
 declare const DynamicForm: React.FC<DynamicFormProps>;
-export default DynamicForm;
+export { DynamicForm };

@@ -6,4 +6,4 @@ interface ColorSelectionProps {
     output?: "rgb" | "hex";
 }
 declare const ColorSelection: React.FC<ColorSelectionProps>;
-export default ColorSelection;
+export { ColorSelection };

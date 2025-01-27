@@ -6,4 +6,4 @@ interface ModalProps {
     children: React.ReactNode;
 }
 declare const Modal: React.FC<ModalProps>;
-export default Modal;
+export { Modal };

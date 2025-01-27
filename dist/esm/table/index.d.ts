@@ -15,6 +15,7 @@ interface TableProps {
     }>;
     filter?: boolean;
     filterBy?: string;
+    'data-testid'?: string;
 }
 declare const SortableTable: React.FC<TableProps>;
-export default SortableTable;
+export { SortableTable };
