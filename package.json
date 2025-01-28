@@ -1,7 +1,7 @@
 {
   "name": "@nodegeeks/ui-components",
   "version": "0.1.0",
-  "description": "A collection of reusable UI components built with React and AWS Amplify UI",
+  "description": "A collection of reusable UI components built with React, AWS Amplify UI, Tailwind CSS and NextJS",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
