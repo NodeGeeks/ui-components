@@ -147,7 +147,7 @@ function __generator(thisArg, body) {
             }
             op = body.call(thisArg, _);
         } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : undefined, done: true };
     }
 }
 
@@ -156,7 +156,7 @@ function __values(o) {
     if (m) return m.call(o);
     if (o && typeof o.length === "number") return {
         next: function () {
-            if (o && i >= o.length) o = void 0;
+            if (o && i >= o.length) o = undefined;
             return { value: o && o[i++], done: !o };
         }
     };
@@ -253,7 +253,7 @@ var Chip = function (_a) {
 };
 
 var ColorSelection = function (_a) {
-    var value = _a.value, onChange = _a.onChange, _b = _a.output, output = _b === void 0 ? "hex" : _b, className = _a.className;
+    var value = _a.value, onChange = _a.onChange, _b = _a.output, output = _b === undefined ? "hex" : _b, className = _a.className;
     var _c = React.useState(false); _c[0]; var setIsOpen = _c[1];
     var handleColorChange = function (color) {
         var formattedColor = output === "rgb" ? hexToRgb(color) : color;
@@ -300,8 +300,8 @@ function replaceCharAt(str, index, char) {
 function incrementBase32(str) {
     var done = undefined;
     var index = str.length;
-    var char = void 0;
-    var charIndex = void 0;
+    var char = undefined;
+    var charIndex = undefined;
     var maxCharIndex = ENCODING_LEN - 1;
     while (!done && index-- >= 0) {
         char = str[index];
@@ -340,7 +340,7 @@ function encodeTime(now, len) {
     if (Number.isInteger(now) === false) {
         throw createError("time must be an integer");
     }
-    var mod = void 0;
+    var mod = undefined;
     var str = "";
     for (; len > 0; len--) {
         mod = now % ENCODING_LEN;
@@ -404,7 +404,7 @@ function monotonicFactory(currPrng) {
         currPrng = detectPrng();
     }
     var lastTime = 0;
-    var lastRandom = void 0;
+    var lastRandom = undefined;
     return function ulid(seedTime) {
         if (isNaN(seedTime)) {
             seedTime = Date.now();
@@ -1248,10 +1248,18 @@ function createBucketInfoMap(buckets) {
         if (name in mappedBuckets) {
             throw new Error(`Duplicate friendly name found: ${name}. Name must be unique.`);
         }
+        const sanitizedPaths = paths
+            ? Object.entries(paths).reduce((acc, [key, value]) => {
+                if (value !== undefined) {
+                    acc[key] = value;
+                }
+                return acc;
+            }, {})
+            : undefined;
         mappedBuckets[name] = {
             bucketName,
             region,
-            paths,
+            paths: sanitizedPaths,
         };
     });
     return mappedBuckets;
@@ -1384,70 +1392,6 @@ const getBtoa = () => {
         message: 'Cannot resolve the `btoa` function from the environment.',
     });
 };
-
-class AuthClass {
-    /**
-     * Configure Auth category
-     *
-     * @internal
-     *
-     * @param authResourcesConfig - Resources configurations required by Auth providers.
-     * @param authOptions - Client options used by library
-     *
-     * @returns void
-     */
-    configure(authResourcesConfig, authOptions) {
-        this.authConfig = authResourcesConfig;
-        this.authOptions = authOptions;
-    }
-    /**
-     * Fetch the auth tokens, and the temporary AWS credentials and identity if they are configured. By default it
-     * does not refresh the auth tokens or credentials if they are loaded in storage already. You can force a refresh
-     * with `{ forceRefresh: true }` input.
-     *
-     * @param options - Options configuring the fetch behavior.
-     *
-     * @returns Promise of current auth session {@link AuthSession}.
-     */
-    async fetchAuthSession(options = {}) {
-        let credentialsAndIdentityId;
-        let userSub;
-        // Get tokens will throw if session cannot be refreshed (network or service error) or return null if not available
-        const tokens = await this.getTokens(options);
-        if (tokens) {
-            userSub = tokens.accessToken?.payload?.sub;
-            // getCredentialsAndIdentityId will throw if cannot get credentials (network or service error)
-            credentialsAndIdentityId =
-                await this.authOptions?.credentialsProvider?.getCredentialsAndIdentityId({
-                    authConfig: this.authConfig,
-                    tokens,
-                    authenticated: true,
-                    forceRefresh: options.forceRefresh,
-                });
-        }
-        else {
-            // getCredentialsAndIdentityId will throw if cannot get credentials (network or service error)
-            credentialsAndIdentityId =
-                await this.authOptions?.credentialsProvider?.getCredentialsAndIdentityId({
-                    authConfig: this.authConfig,
-                    authenticated: false,
-                    forceRefresh: options.forceRefresh,
-                });
-        }
-        return {
-            tokens,
-            credentials: credentialsAndIdentityId?.credentials,
-            identityId: credentialsAndIdentityId?.identityId,
-            userSub,
-        };
-    }
-    async clearCredentials() {
-        await this.authOptions?.credentialsProvider?.clearCredentialsAndIdentityId();
-    }
-    async getTokens(options) {
-        return ((await this.authOptions?.tokenProvider?.getTokens(options)) ?? undefined);
-    }
-}
 
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
@@ -1840,7 +1784,7 @@ var Sha256 = /** @class */ (function () {
      * However, it can sometimes be useful to have a sync method.
      */
     Sha256.prototype.digest = function () {
-        return __awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, undefined, undefined, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.digestSync()];
             });
@@ -2294,7 +2238,7 @@ var StorageAction;
 })(StorageAction || (StorageAction = {}));
 
 // generated by genversion
-const version = '6.10.3';
+const version = '6.12.2';
 
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
@@ -3075,7 +3019,7 @@ var Subscription = (function () {
                     }
                     teardown._addParent(this);
                 }
-                (this._finalizers = (_a = this._finalizers) !== null && _a !== void 0 ? _a : []).push(teardown);
+                (this._finalizers = (_a = this._finalizers) !== null && _a !== undefined ? _a : []).push(teardown);
             }
         }
     };
@@ -3138,11 +3082,11 @@ var timeoutProvider = {
         for (var _i = 2; _i < arguments.length; _i++) {
             args[_i - 2] = arguments[_i];
         }
-        return setTimeout.apply(void 0, __spreadArray([handler, timeout], __read(args)));
+        return setTimeout.apply(undefined, __spreadArray([handler, timeout], __read(args)));
     },
     clearTimeout: function (handle) {
         var delegate = timeoutProvider.delegate;
-        return ((delegate === null || delegate === void 0 ? void 0 : delegate.clearTimeout) || clearTimeout)(handle);
+        return ((delegate === null || delegate === undefined ? undefined : delegate.clearTimeout) || clearTimeout)(handle);
     },
     delegate: undefined,
 };
@@ -3279,9 +3223,9 @@ var SafeSubscriber = (function (_super) {
         var partialObserver;
         if (isFunction(observerOrNext) || !observerOrNext) {
             partialObserver = {
-                next: (observerOrNext !== null && observerOrNext !== void 0 ? observerOrNext : undefined),
-                error: error !== null && error !== void 0 ? error : undefined,
-                complete: complete !== null && complete !== void 0 ? complete : undefined,
+                next: (observerOrNext !== null && observerOrNext !== undefined ? observerOrNext : undefined),
+                error: error !== null && error !== undefined ? error : undefined,
+                complete: complete !== null && complete !== undefined ? complete : undefined,
             };
         }
         else {
@@ -3385,7 +3329,7 @@ var Observable = (function () {
     };
     Observable.prototype._subscribe = function (subscriber) {
         var _a;
-        return (_a = this.source) === null || _a === void 0 ? void 0 : _a.subscribe(subscriber);
+        return (_a = this.source) === null || _a === undefined ? undefined : _a.subscribe(subscriber);
     };
     Observable.prototype[observable] = function () {
         return this;
@@ -3412,7 +3356,7 @@ var Observable = (function () {
 }());
 function getPromiseCtor(promiseCtor) {
     var _a;
-    return (_a = promiseCtor !== null && promiseCtor !== void 0 ? promiseCtor : config.Promise) !== null && _a !== void 0 ? _a : Promise;
+    return (_a = promiseCtor !== null && promiseCtor !== undefined ? promiseCtor : config.Promise) !== null && _a !== undefined ? _a : Promise;
 }
 function isObserver(value) {
     return value && isFunction(value.next) && isFunction(value.error) && isFunction(value.complete);
@@ -3422,7 +3366,7 @@ function isSubscriber(value) {
 }
 
 function hasLift(source) {
-    return isFunction(source === null || source === void 0 ? void 0 : source.lift);
+    return isFunction(source === null || source === undefined ? undefined : source.lift);
 }
 function operate(init) {
     return function (source) {
@@ -3492,7 +3436,7 @@ var OperatorSubscriber = (function (_super) {
         if (!this.shouldUnsubscribe || this.shouldUnsubscribe()) {
             var closed_1 = this.closed;
             _super.prototype.unsubscribe.call(this);
-            !closed_1 && ((_a = this.onFinalize) === null || _a === void 0 ? void 0 : _a.call(this));
+            !closed_1 && ((_a = this.onFinalize) === null || _a === undefined ? undefined : _a.call(this));
         }
     };
     return OperatorSubscriber;
@@ -3587,7 +3531,7 @@ var Subject = (function (_super) {
     Object.defineProperty(Subject.prototype, "observed", {
         get: function () {
             var _a;
-            return ((_a = this.observers) === null || _a === void 0 ? void 0 : _a.length) > 0;
+            return ((_a = this.observers) === null || _a === undefined ? undefined : _a.length) > 0;
         },
         enumerable: false,
         configurable: true
@@ -3643,19 +3587,19 @@ var AnonymousSubject = (function (_super) {
     }
     AnonymousSubject.prototype.next = function (value) {
         var _a, _b;
-        (_b = (_a = this.destination) === null || _a === void 0 ? void 0 : _a.next) === null || _b === void 0 ? void 0 : _b.call(_a, value);
+        (_b = (_a = this.destination) === null || _a === undefined ? undefined : _a.next) === null || _b === undefined ? undefined : _b.call(_a, value);
     };
     AnonymousSubject.prototype.error = function (err) {
         var _a, _b;
-        (_b = (_a = this.destination) === null || _a === void 0 ? void 0 : _a.error) === null || _b === void 0 ? void 0 : _b.call(_a, err);
+        (_b = (_a = this.destination) === null || _a === undefined ? undefined : _a.error) === null || _b === undefined ? undefined : _b.call(_a, err);
     };
     AnonymousSubject.prototype.complete = function () {
         var _a, _b;
-        (_b = (_a = this.destination) === null || _a === void 0 ? void 0 : _a.complete) === null || _b === void 0 ? void 0 : _b.call(_a);
+        (_b = (_a = this.destination) === null || _a === undefined ? undefined : _a.complete) === null || _b === undefined ? undefined : _b.call(_a);
     };
     AnonymousSubject.prototype._subscribe = function (subscriber) {
         var _a, _b;
-        return (_b = (_a = this.source) === null || _a === void 0 ? void 0 : _a.subscribe(subscriber)) !== null && _b !== void 0 ? _b : EMPTY_SUBSCRIPTION;
+        return (_b = (_a = this.source) === null || _a === undefined ? undefined : _a.subscribe(subscriber)) !== null && _b !== undefined ? _b : EMPTY_SUBSCRIPTION;
     };
     return AnonymousSubject;
 }(Subject));
@@ -3674,7 +3618,7 @@ function popScheduler(args) {
 var isArrayLike = (function (x) { return x && typeof x.length === 'number' && typeof x !== 'function'; });
 
 function isPromise(value) {
-    return isFunction(value === null || value === void 0 ? void 0 : value.then);
+    return isFunction(value === null || value === undefined ? undefined : value.then);
 }
 
 function isInteropObservable(input) {
@@ -3682,7 +3626,7 @@ function isInteropObservable(input) {
 }
 
 function isAsyncIterable(obj) {
-    return Symbol.asyncIterator && isFunction(obj === null || obj === void 0 ? void 0 : obj[Symbol.asyncIterator]);
+    return Symbol.asyncIterator && isFunction(obj === null || obj === undefined ? undefined : obj[Symbol.asyncIterator]);
 }
 
 function createInvalidObservableTypeError(input) {
@@ -3698,7 +3642,7 @@ function getSymbolIterator() {
 var iterator = getSymbolIterator();
 
 function isIterable(input) {
-    return isFunction(input === null || input === void 0 ? void 0 : input[iterator]);
+    return isFunction(input === null || input === undefined ? undefined : input[iterator]);
 }
 
 function readableStreamLikeToAsyncGenerator(readableStream) {
@@ -3717,7 +3661,7 @@ function readableStreamLikeToAsyncGenerator(readableStream) {
                 case 3:
                     _a = _b.sent(), value = _a.value, done = _a.done;
                     if (!done) return [3, 5];
-                    return [4, __await(void 0)];
+                    return [4, __await(undefined)];
                 case 4: return [2, _b.sent()];
                 case 5: return [4, __await(value)];
                 case 6: return [4, _b.sent()];
@@ -3734,7 +3678,7 @@ function readableStreamLikeToAsyncGenerator(readableStream) {
     });
 }
 function isReadableStreamLike(obj) {
-    return isFunction(obj === null || obj === void 0 ? void 0 : obj.getReader);
+    return isFunction(obj === null || obj === undefined ? undefined : obj.getReader);
 }
 
 function innerFrom(input) {
@@ -3825,7 +3769,7 @@ function fromReadableStreamLike(readableStream) {
 function process$1(asyncIterable, subscriber) {
     var asyncIterable_1, asyncIterable_1_1;
     var e_2, _a;
-    return __awaiter(this, void 0, void 0, function () {
+    return __awaiter(this, undefined, undefined, function () {
         var value, e_2_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -3869,8 +3813,8 @@ function process$1(asyncIterable, subscriber) {
 }
 
 function executeSchedule(parentSubscription, scheduler, work, delay, repeat) {
-    if (delay === void 0) { delay = 0; }
-    if (repeat === void 0) { repeat = false; }
+    if (delay === undefined) { delay = 0; }
+    if (repeat === undefined) { repeat = false; }
     var scheduleSubscription = scheduler.schedule(function () {
         work();
         if (repeat) {
@@ -3887,14 +3831,14 @@ function executeSchedule(parentSubscription, scheduler, work, delay, repeat) {
 }
 
 function observeOn(scheduler, delay) {
-    if (delay === void 0) { delay = 0; }
+    if (delay === undefined) { delay = 0; }
     return operate(function (source, subscriber) {
         source.subscribe(createOperatorSubscriber(subscriber, function (value) { return executeSchedule(subscriber, scheduler, function () { return subscriber.next(value); }, delay); }, function () { return executeSchedule(subscriber, scheduler, function () { return subscriber.complete(); }, delay); }, function (err) { return executeSchedule(subscriber, scheduler, function () { return subscriber.error(err); }, delay); }));
     });
 }
 
 function subscribeOn(scheduler, delay) {
-    if (delay === void 0) { delay = 0; }
+    if (delay === undefined) { delay = 0; }
     return operate(function (source, subscriber) {
         subscriber.add(scheduler.schedule(function () { return source.subscribe(subscriber); }, delay));
     });
@@ -3949,7 +3893,7 @@ function scheduleIterable(input, scheduler) {
                 }
             }, 0, true);
         });
-        return function () { return isFunction(iterator$1 === null || iterator$1 === void 0 ? void 0 : iterator$1.return) && iterator$1.return(); };
+        return function () { return isFunction(iterator$1 === null || iterator$1 === undefined ? undefined : iterator$1.return) && iterator$1.return(); };
     });
 }
 
@@ -4298,7 +4242,7 @@ class WordArray {
     }
 }
 
-function n(n){for(var t=arguments.length,r=Array(t>1?t-1:0),e=1;e<t;e++)r[e-1]=arguments[e];if("production"!==process.env.NODE_ENV){var i=Y[n],o=i?"function"==typeof i?i.apply(null,r):i:"unknown error nr: "+n;throw Error("[Immer] "+o)}throw Error("[Immer] minified error nr: "+n+(r.length?" "+r.map((function(n){return "'"+n+"'"})).join(","):"")+". Find the full error at: https://bit.ly/3cXEKWf")}function t(n){return !!n&&!!n[Q]}function r(n){return !!n&&(function(n){if(!n||"object"!=typeof n)return !1;var t=Object.getPrototypeOf(n);if(null===t)return !0;var r=Object.hasOwnProperty.call(t,"constructor")&&t.constructor;return r===Object||"function"==typeof r&&Function.toString.call(r)===Z}(n)||Array.isArray(n)||!!n[L]||!!n.constructor[L]||s(n)||v(n))}function i(n,t,r){void 0===r&&(r=!1),0===o(n)?(r?Object.keys:nn)(n).forEach((function(e){r&&"symbol"==typeof e||t(e,n[e],n);})):n.forEach((function(r,e){return t(e,r,n)}));}function o(n){var t=n[Q];return t?t.i>3?t.i-4:t.i:Array.isArray(n)?1:s(n)?2:v(n)?3:0}function u(n,t){return 2===o(n)?n.has(t):Object.prototype.hasOwnProperty.call(n,t)}function a(n,t){return 2===o(n)?n.get(t):n[t]}function f(n,t,r){var e=o(n);2===e?n.set(t,r):3===e?(n.delete(t),n.add(r)):n[t]=r;}function c(n,t){return n===t?0!==n||1/n==1/t:n!=n&&t!=t}function s(n){return X&&n instanceof Map}function v(n){return q&&n instanceof Set}function p(n){return n.o||n.t}function l(n){if(Array.isArray(n))return Array.prototype.slice.call(n);var t=tn(n);delete t[Q];for(var r=nn(t),e=0;e<r.length;e++){var i=r[e],o=t[i];!1===o.writable&&(o.writable=!0,o.configurable=!0),(o.get||o.set)&&(t[i]={configurable:!0,writable:!0,enumerable:o.enumerable,value:n[i]});}return Object.create(Object.getPrototypeOf(n),t)}function d(n,e){return void 0===e&&(e=!1),y(n)||t(n)||!r(n)?n:(o(n)>1&&(n.set=n.add=n.clear=n.delete=h),Object.freeze(n),e&&i(n,(function(n,t){return d(t,!0)}),!0),n)}function h(){n(2);}function y(n){return null==n||"object"!=typeof n||Object.isFrozen(n)}function b(t){var r=rn[t];return r||n(18,t),r}function m(n,t){rn[n]||(rn[n]=t);}function _(){return "production"===process.env.NODE_ENV||U||n(0),U}function j(n,t){t&&(b("Patches"),n.u=[],n.s=[],n.v=t);}function O(n){g(n),n.p.forEach(S),n.p=null;}function g(n){n===U&&(U=n.l);}function w(n){return U={p:[],l:U,h:n,m:!0,_:0}}function S(n){var t=n[Q];0===t.i||1===t.i?t.j():t.O=!0;}function P(t,e){e._=e.p.length;var i=e.p[0],o=void 0!==t&&t!==i;return e.h.g||b("ES5").S(e,t,o),o?(i[Q].P&&(O(e),n(4)),r(t)&&(t=M(e,t),e.l||x(e,t)),e.u&&b("Patches").M(i[Q],t,e.u,e.s)):t=M(e,i,[]),O(e),e.u&&e.v(e.u,e.s),t!==H?t:void 0}function M(n,t,r){if(y(t))return t;var e=t[Q];if(!e)return i(t,(function(i,o){return A(n,e,t,i,o,r)}),!0),t;if(e.A!==n)return t;if(!e.P)return x(n,e.t,!0),e.t;if(!e.I){e.I=!0,e.A._--;var o=4===e.i||5===e.i?e.o=l(e.k):e.o;i(3===e.i?new Set(o):o,(function(t,i){return A(n,e,o,t,i,r)})),x(n,o,!1),r&&n.u&&b("Patches").R(e,r,n.u,n.s);}return e.o}function A(e,i,o,a,c,s){if("production"!==process.env.NODE_ENV&&c===o&&n(5),t(c)){var v=M(e,c,s&&i&&3!==i.i&&!u(i.D,a)?s.concat(a):void 0);if(f(o,a,v),!t(v))return;e.m=!1;}if(r(c)&&!y(c)){if(!e.h.F&&e._<1)return;M(e,c),i&&i.A.l||x(e,c);}}function x(n,t,r){void 0===r&&(r=!1),n.h.F&&n.m&&d(t,r);}function z(n,t){var r=n[Q];return (r?p(r):n)[t]}function I(n,t){if(t in n)for(var r=Object.getPrototypeOf(n);r;){var e=Object.getOwnPropertyDescriptor(r,t);if(e)return e;r=Object.getPrototypeOf(r);}}function k(n){n.P||(n.P=!0,n.l&&k(n.l));}function E(n){n.o||(n.o=l(n.t));}function R(n,t,r){var e=s(t)?b("MapSet").N(t,r):v(t)?b("MapSet").T(t,r):n.g?function(n,t){var r=Array.isArray(n),e={i:r?1:0,A:t?t.A:_(),P:!1,I:!1,D:{},l:t,t:n,k:null,o:null,j:null,C:!1},i=e,o=en;r&&(i=[e],o=on);var u=Proxy.revocable(i,o),a=u.revoke,f=u.proxy;return e.k=f,e.j=a,f}(t,r):b("ES5").J(t,r);return (r?r.A:_()).p.push(e),e}function D(e){return t(e)||n(22,e),function n(t){if(!r(t))return t;var e,u=t[Q],c=o(t);if(u){if(!u.P&&(u.i<4||!b("ES5").K(u)))return u.t;u.I=!0,e=F(t,c),u.I=!1;}else e=F(t,c);return i(e,(function(t,r){u&&a(u.t,t)===r||f(e,t,n(r));})),3===c?new Set(e):e}(e)}function F(n,t){switch(t){case 2:return new Map(n);case 3:return Array.from(n)}return l(n)}function T(){function e(n){if(!r(n))return n;if(Array.isArray(n))return n.map(e);if(s(n))return new Map(Array.from(n.entries()).map((function(n){return [n[0],e(n[1])]})));if(v(n))return new Set(Array.from(n).map(e));var t=Object.create(Object.getPrototypeOf(n));for(var i in n)t[i]=e(n[i]);return u(n,L)&&(t[L]=n[L]),t}function f(n){return t(n)?e(n):n}var c="add";m("Patches",{$:function(t,r){return r.forEach((function(r){for(var i=r.path,u=r.op,f=t,s=0;s<i.length-1;s++){var v=o(f),p=""+i[s];0!==v&&1!==v||"__proto__"!==p&&"constructor"!==p||n(24),"function"==typeof f&&"prototype"===p&&n(24),"object"!=typeof(f=a(f,p))&&n(15,i.join("/"));}var l=o(f),d=e(r.value),h=i[i.length-1];switch(u){case"replace":switch(l){case 2:return f.set(h,d);case 3:n(16);default:return f[h]=d}case c:switch(l){case 1:return f.splice(h,0,d);case 2:return f.set(h,d);case 3:return f.add(d);default:return f[h]=d}case"remove":switch(l){case 1:return f.splice(h,1);case 2:return f.delete(h);case 3:return f.delete(r.value);default:return delete f[h]}default:n(17,u);}})),t},R:function(n,t,r,e){switch(n.i){case 0:case 4:case 2:return function(n,t,r,e){var o=n.t,s=n.o;i(n.D,(function(n,i){var v=a(o,n),p=a(s,n),l=i?u(o,n)?"replace":c:"remove";if(v!==p||"replace"!==l){var d=t.concat(n);r.push("remove"===l?{op:l,path:d}:{op:l,path:d,value:p}),e.push(l===c?{op:"remove",path:d}:"remove"===l?{op:c,path:d,value:f(v)}:{op:"replace",path:d,value:f(v)});}}));}(n,t,r,e);case 5:case 1:return function(n,t,r,e){var i=n.t,o=n.D,u=n.o;if(u.length<i.length){var a=[u,i];i=a[0],u=a[1];var s=[e,r];r=s[0],e=s[1];}for(var v=0;v<i.length;v++)if(o[v]&&u[v]!==i[v]){var p=t.concat([v]);r.push({op:"replace",path:p,value:f(u[v])}),e.push({op:"replace",path:p,value:f(i[v])});}for(var l=i.length;l<u.length;l++){var d=t.concat([l]);r.push({op:c,path:d,value:f(u[l])});}i.length<u.length&&e.push({op:"replace",path:t.concat(["length"]),value:i.length});}(n,t,r,e);case 3:return function(n,t,r,e){var i=n.t,o=n.o,u=0;i.forEach((function(n){if(!o.has(n)){var i=t.concat([u]);r.push({op:"remove",path:i,value:n}),e.unshift({op:c,path:i,value:n});}u++;})),u=0,o.forEach((function(n){if(!i.has(n)){var o=t.concat([u]);r.push({op:c,path:o,value:n}),e.unshift({op:"remove",path:o,value:n});}u++;}));}(n,t,r,e)}},M:function(n,t,r,e){r.push({op:"replace",path:[],value:t===H?void 0:t}),e.push({op:"replace",path:[],value:n.t});}});}var G,U,W="undefined"!=typeof Symbol&&"symbol"==typeof Symbol("x"),X="undefined"!=typeof Map,q="undefined"!=typeof Set,B="undefined"!=typeof Proxy&&void 0!==Proxy.revocable&&"undefined"!=typeof Reflect,H=W?Symbol.for("immer-nothing"):((G={})["immer-nothing"]=!0,G),L=W?Symbol.for("immer-draftable"):"__$immer_draftable",Q=W?Symbol.for("immer-state"):"__$immer_state",Y={0:"Illegal state",1:"Immer drafts cannot have computed properties",2:"This object has been frozen and should not be mutated",3:function(n){return "Cannot use a proxy that has been revoked. Did you pass an object from inside an immer function to an async process? "+n},4:"An immer producer returned a new value *and* modified its draft. Either return a new value *or* modify the draft.",5:"Immer forbids circular references",6:"The first or second argument to `produce` must be a function",7:"The third argument to `produce` must be a function or undefined",8:"First argument to `createDraft` must be a plain object, an array, or an immerable object",9:"First argument to `finishDraft` must be a draft returned by `createDraft`",10:"The given draft is already finalized",11:"Object.defineProperty() cannot be used on an Immer draft",12:"Object.setPrototypeOf() cannot be used on an Immer draft",13:"Immer only supports deleting array indices",14:"Immer only supports setting array indices and the 'length' property",15:function(n){return "Cannot apply patch, path doesn't resolve: "+n},16:'Sets cannot have "replace" patches.',17:function(n){return "Unsupported patch operation: "+n},18:function(n){return "The plugin for '"+n+"' has not been loaded into Immer. To enable the plugin, import and call `enable"+n+"()` when initializing your application."},20:"Cannot use proxies if Proxy, Proxy.revocable or Reflect are not available",21:function(n){return "produce can only be called on things that are draftable: plain objects, arrays, Map, Set or classes that are marked with '[immerable]: true'. Got '"+n+"'"},22:function(n){return "'current' expects a draft, got: "+n},23:function(n){return "'original' expects a draft, got: "+n},24:"Patching reserved attributes like __proto__, prototype and constructor is not allowed"},Z=""+Object.prototype.constructor,nn="undefined"!=typeof Reflect&&Reflect.ownKeys?Reflect.ownKeys:void 0!==Object.getOwnPropertySymbols?function(n){return Object.getOwnPropertyNames(n).concat(Object.getOwnPropertySymbols(n))}:Object.getOwnPropertyNames,tn=Object.getOwnPropertyDescriptors||function(n){var t={};return nn(n).forEach((function(r){t[r]=Object.getOwnPropertyDescriptor(n,r);})),t},rn={},en={get:function(n,t){if(t===Q)return n;var e=p(n);if(!u(e,t))return function(n,t,r){var e,i=I(t,r);return i?"value"in i?i.value:null===(e=i.get)||void 0===e?void 0:e.call(n.k):void 0}(n,e,t);var i=e[t];return n.I||!r(i)?i:i===z(n.t,t)?(E(n),n.o[t]=R(n.A.h,i,n)):i},has:function(n,t){return t in p(n)},ownKeys:function(n){return Reflect.ownKeys(p(n))},set:function(n,t,r){var e=I(p(n),t);if(null==e?void 0:e.set)return e.set.call(n.k,r),!0;if(!n.P){var i=z(p(n),t),o=null==i?void 0:i[Q];if(o&&o.t===r)return n.o[t]=r,n.D[t]=!1,!0;if(c(r,i)&&(void 0!==r||u(n.t,t)))return !0;E(n),k(n);}return n.o[t]===r&&"number"!=typeof r&&(void 0!==r||t in n.o)||(n.o[t]=r,n.D[t]=!0,!0)},deleteProperty:function(n,t){return void 0!==z(n.t,t)||t in n.t?(n.D[t]=!1,E(n),k(n)):delete n.D[t],n.o&&delete n.o[t],!0},getOwnPropertyDescriptor:function(n,t){var r=p(n),e=Reflect.getOwnPropertyDescriptor(r,t);return e?{writable:!0,configurable:1!==n.i||"length"!==t,enumerable:e.enumerable,value:r[t]}:e},defineProperty:function(){n(11);},getPrototypeOf:function(n){return Object.getPrototypeOf(n.t)},setPrototypeOf:function(){n(12);}},on={};i(en,(function(n,t){on[n]=function(){return arguments[0]=arguments[0][0],t.apply(this,arguments)};})),on.deleteProperty=function(t,r){return "production"!==process.env.NODE_ENV&&isNaN(parseInt(r))&&n(13),en.deleteProperty.call(this,t[0],r)},on.set=function(t,r,e){return "production"!==process.env.NODE_ENV&&"length"!==r&&isNaN(parseInt(r))&&n(14),en.set.call(this,t[0],r,e,t[0])};var un=function(){function e(t){var e=this;this.g=B,this.F=!0,this.produce=function(t,i,o){if("function"==typeof t&&"function"!=typeof i){var u=i;i=t;var a=e;return function(n){var t=this;void 0===n&&(n=u);for(var r=arguments.length,e=Array(r>1?r-1:0),o=1;o<r;o++)e[o-1]=arguments[o];return a.produce(n,(function(n){var r;return (r=i).call.apply(r,[t,n].concat(e))}))}}var f;if("function"!=typeof i&&n(6),void 0!==o&&"function"!=typeof o&&n(7),r(t)){var c=w(e),s=R(e,t,void 0),v=!0;try{f=i(s),v=!1;}finally{v?O(c):g(c);}return "undefined"!=typeof Promise&&f instanceof Promise?f.then((function(n){return j(c,o),P(n,c)}),(function(n){throw O(c),n})):(j(c,o),P(f,c))}if(!t||"object"!=typeof t){if((f=i(t))===H)return;return void 0===f&&(f=t),e.F&&d(f,!0),f}n(21,t);},this.produceWithPatches=function(n,t){return "function"==typeof n?function(t){for(var r=arguments.length,i=Array(r>1?r-1:0),o=1;o<r;o++)i[o-1]=arguments[o];return e.produceWithPatches(t,(function(t){return n.apply(void 0,[t].concat(i))}))}:[e.produce(n,t,(function(n,t){r=n,i=t;})),r,i];var r,i;},"boolean"==typeof(null==t?void 0:t.useProxies)&&this.setUseProxies(t.useProxies),"boolean"==typeof(null==t?void 0:t.autoFreeze)&&this.setAutoFreeze(t.autoFreeze);}var i=e.prototype;return i.createDraft=function(e){r(e)||n(8),t(e)&&(e=D(e));var i=w(this),o=R(this,e,void 0);return o[Q].C=!0,g(i),o},i.finishDraft=function(t,r){var e=t&&t[Q];"production"!==process.env.NODE_ENV&&(e&&e.C||n(9),e.I&&n(10));var i=e.A;return j(i,r),P(void 0,i)},i.setAutoFreeze=function(n){this.F=n;},i.setUseProxies=function(t){t&&!B&&n(20),this.g=t;},i.applyPatches=function(n,r){var e;for(e=r.length-1;e>=0;e--){var i=r[e];if(0===i.path.length&&"replace"===i.op){n=i.value;break}}var o=b("Patches").$;return t(n)?o(n,r):this.produce(n,(function(n){return o(n,r.slice(e+1))}))},e}(),an=new un;an.produce;an.produceWithPatches.bind(an);var sn=an.setAutoFreeze.bind(an);an.setUseProxies.bind(an);an.applyPatches.bind(an);an.createDraft.bind(an);an.finishDraft.bind(an);
+function n(n){for(var t=arguments.length,r=Array(t>1?t-1:0),e=1;e<t;e++)r[e-1]=arguments[e];if("production"!==process.env.NODE_ENV){var i=Y[n],o=i?"function"==typeof i?i.apply(null,r):i:"unknown error nr: "+n;throw Error("[Immer] "+o)}throw Error("[Immer] minified error nr: "+n+(r.length?" "+r.map((function(n){return "'"+n+"'"})).join(","):"")+". Find the full error at: https://bit.ly/3cXEKWf")}function t(n){return !!n&&!!n[Q]}function r(n){return !!n&&(function(n){if(!n||"object"!=typeof n)return  false;var t=Object.getPrototypeOf(n);if(null===t)return  true;var r=Object.hasOwnProperty.call(t,"constructor")&&t.constructor;return r===Object||"function"==typeof r&&Function.toString.call(r)===Z}(n)||Array.isArray(n)||!!n[L]||!!n.constructor[L]||s(n)||v(n))}function i(n,t,r){ undefined===r&&(r=false),0===o(n)?(r?Object.keys:nn)(n).forEach((function(e){r&&"symbol"==typeof e||t(e,n[e],n);})):n.forEach((function(r,e){return t(e,r,n)}));}function o(n){var t=n[Q];return t?t.i>3?t.i-4:t.i:Array.isArray(n)?1:s(n)?2:v(n)?3:0}function u(n,t){return 2===o(n)?n.has(t):Object.prototype.hasOwnProperty.call(n,t)}function a(n,t){return 2===o(n)?n.get(t):n[t]}function f(n,t,r){var e=o(n);2===e?n.set(t,r):3===e?(n.delete(t),n.add(r)):n[t]=r;}function c(n,t){return n===t?0!==n||1/n==1/t:n!=n&&t!=t}function s(n){return X&&n instanceof Map}function v(n){return q&&n instanceof Set}function p(n){return n.o||n.t}function l(n){if(Array.isArray(n))return Array.prototype.slice.call(n);var t=tn(n);delete t[Q];for(var r=nn(t),e=0;e<r.length;e++){var i=r[e],o=t[i];false===o.writable&&(o.writable=true,o.configurable=true),(o.get||o.set)&&(t[i]={configurable:true,writable:true,enumerable:o.enumerable,value:n[i]});}return Object.create(Object.getPrototypeOf(n),t)}function d(n,e){return undefined===e&&(e=false),y(n)||t(n)||!r(n)?n:(o(n)>1&&(n.set=n.add=n.clear=n.delete=h),Object.freeze(n),e&&i(n,(function(n,t){return d(t,true)}),true),n)}function h(){n(2);}function y(n){return null==n||"object"!=typeof n||Object.isFrozen(n)}function b(t){var r=rn[t];return r||n(18,t),r}function m(n,t){rn[n]||(rn[n]=t);}function _(){return "production"===process.env.NODE_ENV||U||n(0),U}function j(n,t){t&&(b("Patches"),n.u=[],n.s=[],n.v=t);}function O(n){g(n),n.p.forEach(S),n.p=null;}function g(n){n===U&&(U=n.l);}function w(n){return U={p:[],l:U,h:n,m:true,_:0}}function S(n){var t=n[Q];0===t.i||1===t.i?t.j():t.O=true;}function P(t,e){e._=e.p.length;var i=e.p[0],o=undefined!==t&&t!==i;return e.h.g||b("ES5").S(e,t,o),o?(i[Q].P&&(O(e),n(4)),r(t)&&(t=M(e,t),e.l||x(e,t)),e.u&&b("Patches").M(i[Q],t,e.u,e.s)):t=M(e,i,[]),O(e),e.u&&e.v(e.u,e.s),t!==H?t:undefined}function M(n,t,r){if(y(t))return t;var e=t[Q];if(!e)return i(t,(function(i,o){return A(n,e,t,i,o,r)}),true),t;if(e.A!==n)return t;if(!e.P)return x(n,e.t,true),e.t;if(!e.I){e.I=true,e.A._--;var o=4===e.i||5===e.i?e.o=l(e.k):e.o;i(3===e.i?new Set(o):o,(function(t,i){return A(n,e,o,t,i,r)})),x(n,o,false),r&&n.u&&b("Patches").R(e,r,n.u,n.s);}return e.o}function A(e,i,o,a,c,s){if("production"!==process.env.NODE_ENV&&c===o&&n(5),t(c)){var v=M(e,c,s&&i&&3!==i.i&&!u(i.D,a)?s.concat(a):undefined);if(f(o,a,v),!t(v))return;e.m=false;}if(r(c)&&!y(c)){if(!e.h.F&&e._<1)return;M(e,c),i&&i.A.l||x(e,c);}}function x(n,t,r){ undefined===r&&(r=false),n.h.F&&n.m&&d(t,r);}function z(n,t){var r=n[Q];return (r?p(r):n)[t]}function I(n,t){if(t in n)for(var r=Object.getPrototypeOf(n);r;){var e=Object.getOwnPropertyDescriptor(r,t);if(e)return e;r=Object.getPrototypeOf(r);}}function k(n){n.P||(n.P=true,n.l&&k(n.l));}function E(n){n.o||(n.o=l(n.t));}function R(n,t,r){var e=s(t)?b("MapSet").N(t,r):v(t)?b("MapSet").T(t,r):n.g?function(n,t){var r=Array.isArray(n),e={i:r?1:0,A:t?t.A:_(),P:false,I:false,D:{},l:t,t:n,k:null,o:null,j:null,C:false},i=e,o=en;r&&(i=[e],o=on);var u=Proxy.revocable(i,o),a=u.revoke,f=u.proxy;return e.k=f,e.j=a,f}(t,r):b("ES5").J(t,r);return (r?r.A:_()).p.push(e),e}function D(e){return t(e)||n(22,e),function n(t){if(!r(t))return t;var e,u=t[Q],c=o(t);if(u){if(!u.P&&(u.i<4||!b("ES5").K(u)))return u.t;u.I=true,e=F(t,c),u.I=false;}else e=F(t,c);return i(e,(function(t,r){u&&a(u.t,t)===r||f(e,t,n(r));})),3===c?new Set(e):e}(e)}function F(n,t){switch(t){case 2:return new Map(n);case 3:return Array.from(n)}return l(n)}function T(){function e(n){if(!r(n))return n;if(Array.isArray(n))return n.map(e);if(s(n))return new Map(Array.from(n.entries()).map((function(n){return [n[0],e(n[1])]})));if(v(n))return new Set(Array.from(n).map(e));var t=Object.create(Object.getPrototypeOf(n));for(var i in n)t[i]=e(n[i]);return u(n,L)&&(t[L]=n[L]),t}function f(n){return t(n)?e(n):n}var c="add";m("Patches",{$:function(t,r){return r.forEach((function(r){for(var i=r.path,u=r.op,f=t,s=0;s<i.length-1;s++){var v=o(f),p=""+i[s];0!==v&&1!==v||"__proto__"!==p&&"constructor"!==p||n(24),"function"==typeof f&&"prototype"===p&&n(24),"object"!=typeof(f=a(f,p))&&n(15,i.join("/"));}var l=o(f),d=e(r.value),h=i[i.length-1];switch(u){case "replace":switch(l){case 2:return f.set(h,d);case 3:n(16);default:return f[h]=d}case c:switch(l){case 1:return f.splice(h,0,d);case 2:return f.set(h,d);case 3:return f.add(d);default:return f[h]=d}case "remove":switch(l){case 1:return f.splice(h,1);case 2:return f.delete(h);case 3:return f.delete(r.value);default:return delete f[h]}default:n(17,u);}})),t},R:function(n,t,r,e){switch(n.i){case 0:case 4:case 2:return function(n,t,r,e){var o=n.t,s=n.o;i(n.D,(function(n,i){var v=a(o,n),p=a(s,n),l=i?u(o,n)?"replace":c:"remove";if(v!==p||"replace"!==l){var d=t.concat(n);r.push("remove"===l?{op:l,path:d}:{op:l,path:d,value:p}),e.push(l===c?{op:"remove",path:d}:"remove"===l?{op:c,path:d,value:f(v)}:{op:"replace",path:d,value:f(v)});}}));}(n,t,r,e);case 5:case 1:return function(n,t,r,e){var i=n.t,o=n.D,u=n.o;if(u.length<i.length){var a=[u,i];i=a[0],u=a[1];var s=[e,r];r=s[0],e=s[1];}for(var v=0;v<i.length;v++)if(o[v]&&u[v]!==i[v]){var p=t.concat([v]);r.push({op:"replace",path:p,value:f(u[v])}),e.push({op:"replace",path:p,value:f(i[v])});}for(var l=i.length;l<u.length;l++){var d=t.concat([l]);r.push({op:c,path:d,value:f(u[l])});}i.length<u.length&&e.push({op:"replace",path:t.concat(["length"]),value:i.length});}(n,t,r,e);case 3:return function(n,t,r,e){var i=n.t,o=n.o,u=0;i.forEach((function(n){if(!o.has(n)){var i=t.concat([u]);r.push({op:"remove",path:i,value:n}),e.unshift({op:c,path:i,value:n});}u++;})),u=0,o.forEach((function(n){if(!i.has(n)){var o=t.concat([u]);r.push({op:c,path:o,value:n}),e.unshift({op:"remove",path:o,value:n});}u++;}));}(n,t,r,e)}},M:function(n,t,r,e){r.push({op:"replace",path:[],value:t===H?undefined:t}),e.push({op:"replace",path:[],value:n.t});}});}var G,U,W="undefined"!=typeof Symbol&&"symbol"==typeof Symbol("x"),X="undefined"!=typeof Map,q="undefined"!=typeof Set,B="undefined"!=typeof Proxy&&undefined!==Proxy.revocable&&"undefined"!=typeof Reflect,H=W?Symbol.for("immer-nothing"):((G={})["immer-nothing"]=true,G),L=W?Symbol.for("immer-draftable"):"__$immer_draftable",Q=W?Symbol.for("immer-state"):"__$immer_state",Y={0:"Illegal state",1:"Immer drafts cannot have computed properties",2:"This object has been frozen and should not be mutated",3:function(n){return "Cannot use a proxy that has been revoked. Did you pass an object from inside an immer function to an async process? "+n},4:"An immer producer returned a new value *and* modified its draft. Either return a new value *or* modify the draft.",5:"Immer forbids circular references",6:"The first or second argument to `produce` must be a function",7:"The third argument to `produce` must be a function or undefined",8:"First argument to `createDraft` must be a plain object, an array, or an immerable object",9:"First argument to `finishDraft` must be a draft returned by `createDraft`",10:"The given draft is already finalized",11:"Object.defineProperty() cannot be used on an Immer draft",12:"Object.setPrototypeOf() cannot be used on an Immer draft",13:"Immer only supports deleting array indices",14:"Immer only supports setting array indices and the 'length' property",15:function(n){return "Cannot apply patch, path doesn't resolve: "+n},16:'Sets cannot have "replace" patches.',17:function(n){return "Unsupported patch operation: "+n},18:function(n){return "The plugin for '"+n+"' has not been loaded into Immer. To enable the plugin, import and call `enable"+n+"()` when initializing your application."},20:"Cannot use proxies if Proxy, Proxy.revocable or Reflect are not available",21:function(n){return "produce can only be called on things that are draftable: plain objects, arrays, Map, Set or classes that are marked with '[immerable]: true'. Got '"+n+"'"},22:function(n){return "'current' expects a draft, got: "+n},23:function(n){return "'original' expects a draft, got: "+n},24:"Patching reserved attributes like __proto__, prototype and constructor is not allowed"},Z=""+Object.prototype.constructor,nn="undefined"!=typeof Reflect&&Reflect.ownKeys?Reflect.ownKeys:undefined!==Object.getOwnPropertySymbols?function(n){return Object.getOwnPropertyNames(n).concat(Object.getOwnPropertySymbols(n))}:Object.getOwnPropertyNames,tn=Object.getOwnPropertyDescriptors||function(n){var t={};return nn(n).forEach((function(r){t[r]=Object.getOwnPropertyDescriptor(n,r);})),t},rn={},en={get:function(n,t){if(t===Q)return n;var e=p(n);if(!u(e,t))return function(n,t,r){var e,i=I(t,r);return i?"value"in i?i.value:null===(e=i.get)||undefined===e?undefined:e.call(n.k):undefined}(n,e,t);var i=e[t];return n.I||!r(i)?i:i===z(n.t,t)?(E(n),n.o[t]=R(n.A.h,i,n)):i},has:function(n,t){return t in p(n)},ownKeys:function(n){return Reflect.ownKeys(p(n))},set:function(n,t,r){var e=I(p(n),t);if(null==e?undefined:e.set)return e.set.call(n.k,r),true;if(!n.P){var i=z(p(n),t),o=null==i?undefined:i[Q];if(o&&o.t===r)return n.o[t]=r,n.D[t]=false,true;if(c(r,i)&&(undefined!==r||u(n.t,t)))return  true;E(n),k(n);}return n.o[t]===r&&"number"!=typeof r&&(undefined!==r||t in n.o)||(n.o[t]=r,n.D[t]=true,true)},deleteProperty:function(n,t){return undefined!==z(n.t,t)||t in n.t?(n.D[t]=false,E(n),k(n)):delete n.D[t],n.o&&delete n.o[t],true},getOwnPropertyDescriptor:function(n,t){var r=p(n),e=Reflect.getOwnPropertyDescriptor(r,t);return e?{writable:true,configurable:1!==n.i||"length"!==t,enumerable:e.enumerable,value:r[t]}:e},defineProperty:function(){n(11);},getPrototypeOf:function(n){return Object.getPrototypeOf(n.t)},setPrototypeOf:function(){n(12);}},on={};i(en,(function(n,t){on[n]=function(){return arguments[0]=arguments[0][0],t.apply(this,arguments)};})),on.deleteProperty=function(t,r){return "production"!==process.env.NODE_ENV&&isNaN(parseInt(r))&&n(13),en.deleteProperty.call(this,t[0],r)},on.set=function(t,r,e){return "production"!==process.env.NODE_ENV&&"length"!==r&&isNaN(parseInt(r))&&n(14),en.set.call(this,t[0],r,e,t[0])};var un=function(){function e(t){var e=this;this.g=B,this.F=true,this.produce=function(t,i,o){if("function"==typeof t&&"function"!=typeof i){var u=i;i=t;var a=e;return function(n){var t=this;undefined===n&&(n=u);for(var r=arguments.length,e=Array(r>1?r-1:0),o=1;o<r;o++)e[o-1]=arguments[o];return a.produce(n,(function(n){var r;return (r=i).call.apply(r,[t,n].concat(e))}))}}var f;if("function"!=typeof i&&n(6),undefined!==o&&"function"!=typeof o&&n(7),r(t)){var c=w(e),s=R(e,t,undefined),v=true;try{f=i(s),v=!1;}finally{v?O(c):g(c);}return "undefined"!=typeof Promise&&f instanceof Promise?f.then((function(n){return j(c,o),P(n,c)}),(function(n){throw O(c),n})):(j(c,o),P(f,c))}if(!t||"object"!=typeof t){if((f=i(t))===H)return;return undefined===f&&(f=t),e.F&&d(f,true),f}n(21,t);},this.produceWithPatches=function(n,t){return "function"==typeof n?function(t){for(var r=arguments.length,i=Array(r>1?r-1:0),o=1;o<r;o++)i[o-1]=arguments[o];return e.produceWithPatches(t,(function(t){return n.apply(undefined,[t].concat(i))}))}:[e.produce(n,t,(function(n,t){r=n,i=t;})),r,i];var r,i;},"boolean"==typeof(null==t?undefined:t.useProxies)&&this.setUseProxies(t.useProxies),"boolean"==typeof(null==t?undefined:t.autoFreeze)&&this.setAutoFreeze(t.autoFreeze);}var i=e.prototype;return i.createDraft=function(e){r(e)||n(8),t(e)&&(e=D(e));var i=w(this),o=R(this,e,undefined);return o[Q].C=true,g(i),o},i.finishDraft=function(t,r){var e=t&&t[Q];"production"!==process.env.NODE_ENV&&(e&&e.C||n(9),e.I&&n(10));var i=e.A;return j(i,r),P(undefined,i)},i.setAutoFreeze=function(n){this.F=n;},i.setUseProxies=function(t){t&&!B&&n(20),this.g=t;},i.applyPatches=function(n,r){var e;for(e=r.length-1;e>=0;e--){var i=r[e];if(0===i.path.length&&"replace"===i.op){n=i.value;break}}var o=b("Patches").$;return t(n)?o(n,r):this.produce(n,(function(n){return o(n,r.slice(e+1))}))},e}(),an=new un;an.produce;an.produceWithPatches.bind(an);var sn=an.setAutoFreeze.bind(an);an.setUseProxies.bind(an);an.applyPatches.bind(an);an.createDraft.bind(an);an.finishDraft.bind(an);
 
 /**
  * @private
@@ -5720,7 +5664,7 @@ function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflec
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof$2(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _assertThisInitialized(self) { if (self === undefined) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
 
@@ -5795,12 +5739,12 @@ var GraphQLError = /*#__PURE__*/function (_Error) {
 
     _this = _super.call(this, message);
     _this.name = 'GraphQLError';
-    _this.originalError = originalError !== null && originalError !== void 0 ? originalError : undefined; // Compute list of blame nodes.
+    _this.originalError = originalError !== null && originalError !== undefined ? originalError : undefined; // Compute list of blame nodes.
 
     _this.nodes = undefinedIfEmpty(Array.isArray(nodes) ? nodes : nodes ? [nodes] : undefined);
     var nodeLocations = [];
 
-    for (var _i2 = 0, _ref3 = (_this$nodes = _this.nodes) !== null && _this$nodes !== void 0 ? _this$nodes : []; _i2 < _ref3.length; _i2++) {
+    for (var _i2 = 0, _ref3 = (_this$nodes = _this.nodes) !== null && _this$nodes !== undefined ? _this$nodes : []; _i2 < _ref3.length; _i2++) {
       var _this$nodes;
 
       var _ref4 = _ref3[_i2];
@@ -5813,22 +5757,22 @@ var GraphQLError = /*#__PURE__*/function (_Error) {
 
     nodeLocations = undefinedIfEmpty(nodeLocations); // Compute locations in the source for the given nodes/positions.
 
-    _this.source = source !== null && source !== void 0 ? source : (_nodeLocations = nodeLocations) === null || _nodeLocations === void 0 ? void 0 : _nodeLocations[0].source;
-    _this.positions = positions !== null && positions !== void 0 ? positions : (_nodeLocations2 = nodeLocations) === null || _nodeLocations2 === void 0 ? void 0 : _nodeLocations2.map(function (loc) {
+    _this.source = source !== null && source !== undefined ? source : (_nodeLocations = nodeLocations) === null || _nodeLocations === undefined ? undefined : _nodeLocations[0].source;
+    _this.positions = positions !== null && positions !== undefined ? positions : (_nodeLocations2 = nodeLocations) === null || _nodeLocations2 === undefined ? undefined : _nodeLocations2.map(function (loc) {
       return loc.start;
     });
     _this.locations = positions && source ? positions.map(function (pos) {
       return getLocation(source, pos);
-    }) : (_nodeLocations3 = nodeLocations) === null || _nodeLocations3 === void 0 ? void 0 : _nodeLocations3.map(function (loc) {
+    }) : (_nodeLocations3 = nodeLocations) === null || _nodeLocations3 === undefined ? undefined : _nodeLocations3.map(function (loc) {
       return getLocation(loc.source, loc.start);
     });
-    _this.path = path !== null && path !== void 0 ? path : undefined;
-    var originalExtensions = originalError === null || originalError === void 0 ? void 0 : originalError.extensions;
+    _this.path = path !== null && path !== undefined ? path : undefined;
+    var originalExtensions = originalError === null || originalError === undefined ? undefined : originalError.extensions;
 
     if (extensions == null && isObjectLike(originalExtensions)) {
       _this.extensions = _objectSpread({}, originalExtensions);
     } else {
-      _this.extensions = extensions !== null && extensions !== void 0 ? extensions : {};
+      _this.extensions = extensions !== null && extensions !== undefined ? extensions : {};
     } // By being enumerable, JSON.stringify will include bellow properties in the resulting output.
     // This ensures that the simplest possible GraphQL service adheres to the spec.
 
@@ -5863,7 +5807,7 @@ var GraphQLError = /*#__PURE__*/function (_Error) {
       }
     }); // Include (non-enumerable) stack trace.
 
-    if (originalError !== null && originalError !== void 0 && originalError.stack) {
+    if (originalError !== null && originalError !== undefined && originalError.stack) {
       Object.defineProperty(_assertThisInitialized(_this), 'stack', {
         value: originalError.stack,
         writable: true,
@@ -6332,7 +6276,7 @@ function instanceOf(value, constructor) {
 
     var className = constructor.prototype[Symbol.toStringTag];
     var valueClassName = // We still need to support constructor's name to detect conflicts with older versions of this library.
-    Symbol.toStringTag in value ? value[Symbol.toStringTag] : (_value$constructor = value.constructor) === null || _value$constructor === void 0 ? void 0 : _value$constructor.name;
+    Symbol.toStringTag in value ? value[Symbol.toStringTag] : (_value$constructor = value.constructor) === null || _value$constructor === undefined ? undefined : _value$constructor.name;
 
     if (className === valueClassName) {
       var stringifiedValue = inspect(value);
@@ -6512,7 +6456,7 @@ function getBlockStringIndentation(value) {
     }
   }
 
-  return (_commonIndent = commonIndent) !== null && _commonIndent !== void 0 ? _commonIndent : 0;
+  return (_commonIndent = commonIndent) !== null && _commonIndent !== undefined ? _commonIndent : 0;
 }
 /**
  * Print a block string in the indented block form by adding a leading and
@@ -6604,7 +6548,7 @@ var Lexer = /*#__PURE__*/function () {
         var _token$next;
 
         // Note: next is only mutable during parsing, so we cast to allow this.
-        token = (_token$next = token.next) !== null && _token$next !== void 0 ? _token$next : token.next = readToken(this, token);
+        token = (_token$next = token.next) !== null && _token$next !== undefined ? _token$next : token.next = readToken(this, token);
       } while (token.kind === TokenKind.COMMENT);
     }
 
@@ -7557,7 +7501,7 @@ var Parser = /*#__PURE__*/function () {
     // the grammar of FragmentDefinition:
     //   - fragment FragmentName VariableDefinitions? on TypeCondition Directives? SelectionSet
 
-    if (((_this$_options = this._options) === null || _this$_options === void 0 ? void 0 : _this$_options.experimentalFragmentVariables) === true) {
+    if (((_this$_options = this._options) === null || _this$_options === undefined ? undefined : _this$_options.experimentalFragmentVariables) === true) {
       return {
         kind: Kind.FRAGMENT_DEFINITION,
         name: this.parseFragmentName(),
@@ -7995,7 +7939,7 @@ var Parser = /*#__PURE__*/function () {
       return [];
     }
 
-    if (((_this$_options2 = this._options) === null || _this$_options2 === void 0 ? void 0 : _this$_options2.allowLegacySDLImplementsInterfaces) === true) {
+    if (((_this$_options2 = this._options) === null || _this$_options2 === undefined ? undefined : _this$_options2.allowLegacySDLImplementsInterfaces) === true) {
       var types = []; // Optional leading ampersand
 
       this.expectOptionalToken(TokenKind.AMP);
@@ -8018,7 +7962,7 @@ var Parser = /*#__PURE__*/function () {
     var _this$_options3;
 
     // Legacy support for the SDL?
-    if (((_this$_options3 = this._options) === null || _this$_options3 === void 0 ? void 0 : _this$_options3.allowLegacySDLEmptyFields) === true && this.peek(TokenKind.BRACE_L) && this._lexer.lookahead().kind === TokenKind.BRACE_R) {
+    if (((_this$_options3 = this._options) === null || _this$_options3 === undefined ? undefined : _this$_options3.allowLegacySDLEmptyFields) === true && this.peek(TokenKind.BRACE_L) && this._lexer.lookahead().kind === TokenKind.BRACE_R) {
       this._lexer.advance();
 
       this._lexer.advance();
@@ -8544,7 +8488,7 @@ var Parser = /*#__PURE__*/function () {
   _proto.loc = function loc(startToken) {
     var _this$_options4;
 
-    if (((_this$_options4 = this._options) === null || _this$_options4 === void 0 ? void 0 : _this$_options4.noLocation) !== true) {
+    if (((_this$_options4 = this._options) === null || _this$_options4 === undefined ? undefined : _this$_options4.noLocation) !== true) {
       return new Location(startToken, this._lexer.lastToken, this._lexer.source);
     }
   }
@@ -8628,7 +8572,7 @@ var Parser = /*#__PURE__*/function () {
   ;
 
   _proto.unexpected = function unexpected(atToken) {
-    var token = atToken !== null && atToken !== void 0 ? atToken : this._lexer.token;
+    var token = atToken !== null && atToken !== undefined ? atToken : this._lexer.token;
     return syntaxError(this._lexer.source, token.start, "Unexpected ".concat(getTokenDesc(token), "."));
   }
   /**
@@ -8941,7 +8885,7 @@ function visit(root, visitor) {
       }
     }
 
-    var result = void 0;
+    var result = undefined;
 
     if (!Array.isArray(node)) {
       if (!isNode$1(node)) {
@@ -8994,7 +8938,7 @@ function visit(root, visitor) {
         prev: stack
       };
       inArray = Array.isArray(node);
-      keys = inArray ? node : (_visitorKeys$node$kin = visitorKeys[node.kind]) !== null && _visitorKeys$node$kin !== void 0 ? _visitorKeys$node$kin : [];
+      keys = inArray ? node : (_visitorKeys$node$kin = visitorKeys[node.kind]) !== null && _visitorKeys$node$kin !== undefined ? _visitorKeys$node$kin : [];
       index = -1;
       edits = [];
 
@@ -9328,9 +9272,9 @@ function join(maybeArray) {
   var _maybeArray$filter$jo;
 
   var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-  return (_maybeArray$filter$jo = maybeArray === null || maybeArray === void 0 ? void 0 : maybeArray.filter(function (x) {
+  return (_maybeArray$filter$jo = maybeArray === null || maybeArray === undefined ? undefined : maybeArray.filter(function (x) {
     return x;
-  }).join(separator)) !== null && _maybeArray$filter$jo !== void 0 ? _maybeArray$filter$jo : '';
+  }).join(separator)) !== null && _maybeArray$filter$jo !== undefined ? _maybeArray$filter$jo : '';
 }
 /**
  * Given array, print each item on its own line, wrapped in an
@@ -9416,6 +9360,70 @@ const deepFreeze = (object) => {
     }
     return Object.freeze(object);
 };
+
+class AuthClass {
+    /**
+     * Configure Auth category
+     *
+     * @internal
+     *
+     * @param authResourcesConfig - Resources configurations required by Auth providers.
+     * @param authOptions - Client options used by library
+     *
+     * @returns void
+     */
+    configure(authResourcesConfig, authOptions) {
+        this.authConfig = authResourcesConfig;
+        this.authOptions = authOptions;
+    }
+    /**
+     * Fetch the auth tokens, and the temporary AWS credentials and identity if they are configured. By default it
+     * does not refresh the auth tokens or credentials if they are loaded in storage already. You can force a refresh
+     * with `{ forceRefresh: true }` input.
+     *
+     * @param options - Options configuring the fetch behavior.
+     *
+     * @returns Promise of current auth session {@link AuthSession}.
+     */
+    async fetchAuthSession(options = {}) {
+        let credentialsAndIdentityId;
+        let userSub;
+        // Get tokens will throw if session cannot be refreshed (network or service error) or return null if not available
+        const tokens = await this.getTokens(options);
+        if (tokens) {
+            userSub = tokens.accessToken?.payload?.sub;
+            // getCredentialsAndIdentityId will throw if cannot get credentials (network or service error)
+            credentialsAndIdentityId =
+                await this.authOptions?.credentialsProvider?.getCredentialsAndIdentityId({
+                    authConfig: this.authConfig,
+                    tokens,
+                    authenticated: true,
+                    forceRefresh: options.forceRefresh,
+                });
+        }
+        else {
+            // getCredentialsAndIdentityId will throw if cannot get credentials (network or service error)
+            credentialsAndIdentityId =
+                await this.authOptions?.credentialsProvider?.getCredentialsAndIdentityId({
+                    authConfig: this.authConfig,
+                    authenticated: false,
+                    forceRefresh: options.forceRefresh,
+                });
+        }
+        return {
+            tokens,
+            credentials: credentialsAndIdentityId?.credentials,
+            identityId: credentialsAndIdentityId?.identityId,
+            userSub,
+        };
+    }
+    async clearCredentials() {
+        await this.authOptions?.credentialsProvider?.clearCredentialsAndIdentityId();
+    }
+    async getTokens(options) {
+        return ((await this.authOptions?.tokenProvider?.getTokens(options)) ?? undefined);
+    }
+}
 
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
@@ -12594,7 +12602,7 @@ class InternalGraphQLAPIClass {
         /**
          * @private
          */
-        this.appSyncRealTime = new AWSAppSyncRealTimeProvider();
+        this.appSyncRealTime = new Map();
         this._api = {
             post,
             cancelREST: cancel,
@@ -12622,7 +12630,7 @@ class InternalGraphQLAPIClass {
      * @param [additionalHeaders] - headers to merge in after any `libraryConfigHeaders` set in the config
      * @returns An Observable if the query is a subscription query, else a promise of the graphql result.
      */
-    graphql(amplify, { query: paramQuery, variables = {}, authMode, authToken }, additionalHeaders, customUserAgentDetails) {
+    graphql(amplify, { query: paramQuery, variables = {}, authMode, authToken, endpoint, apiKey, }, additionalHeaders, customUserAgentDetails) {
         const query = typeof paramQuery === 'string'
             ? parse(paramQuery)
             : parse(print(paramQuery));
@@ -12635,13 +12643,13 @@ class InternalGraphQLAPIClass {
                 const abortController = new AbortController();
                 let responsePromise;
                 if (isAmplifyInstance(amplify)) {
-                    responsePromise = this._graphql(amplify, { query, variables, authMode }, headers, abortController, customUserAgentDetails, authToken);
+                    responsePromise = this._graphql(amplify, { query, variables, authMode, apiKey, endpoint }, headers, abortController, customUserAgentDetails, authToken);
                 }
                 else {
                     // NOTE: this wrapper function must be await-able so the Amplify server context manager can
                     // destroy the context only after it completes
                     const wrapper = async (amplifyInstance) => {
-                        const result = await this._graphql(amplifyInstance, { query, variables, authMode }, headers, abortController, customUserAgentDetails, authToken);
+                        const result = await this._graphql(amplifyInstance, { query, variables, authMode, apiKey, endpoint }, headers, abortController, customUserAgentDetails, authToken);
                         return result;
                     };
                     responsePromise = amplify(wrapper);
@@ -12650,14 +12658,14 @@ class InternalGraphQLAPIClass {
                 return responsePromise;
             }
             case 'subscription':
-                return this._graphqlSubscribe(amplify, { query, variables, authMode }, headers, customUserAgentDetails, authToken);
+                return this._graphqlSubscribe(amplify, { query, variables, authMode, apiKey, endpoint }, headers, customUserAgentDetails, authToken);
             default:
                 throw new Error(`invalid operation type: ${operationType}`);
         }
     }
-    async _graphql(amplify, { query, variables, authMode: explicitAuthMode }, additionalHeaders = {}, abortController, customUserAgentDetails, authToken) {
+    async _graphql(amplify, { query, variables, authMode: authModeOverride, endpoint: endpointOverride, apiKey: apiKeyOverride, }, additionalHeaders = {}, abortController, customUserAgentDetails, authToken) {
         const { apiKey, region, endpoint: appSyncGraphqlEndpoint, customEndpoint, customEndpointRegion, defaultAuthMode, } = resolveConfig(amplify);
-        const initialAuthMode = explicitAuthMode || defaultAuthMode || 'iam';
+        const initialAuthMode = authModeOverride || defaultAuthMode || 'iam';
         // identityPool is an alias for iam. TODO: remove 'iam' in v7
         const authMode = initialAuthMode === 'identityPool' ? 'iam' : initialAuthMode;
         /**
@@ -12677,7 +12685,7 @@ class InternalGraphQLAPIClass {
         if (typeof additionalHeaders === 'function') {
             const requestOptions = {
                 method: 'POST',
-                url: new AmplifyUrl(customEndpoint || appSyncGraphqlEndpoint || '').toString(),
+                url: new AmplifyUrl(endpointOverride || customEndpoint || appSyncGraphqlEndpoint || '').toString(),
                 queryString: print(query),
             };
             additionalCustomHeaders = await additionalHeaders(requestOptions);
@@ -12692,7 +12700,7 @@ class InternalGraphQLAPIClass {
                 Authorization: authToken,
             };
         }
-        const authHeaders = await headerBasedAuth(amplify, authMode, apiKey, additionalCustomHeaders);
+        const authHeaders = await headerBasedAuth(amplify, authMode, apiKeyOverride ?? apiKey, additionalCustomHeaders);
         const headers = {
             ...(!customEndpoint && authHeaders),
             /**
@@ -12740,7 +12748,7 @@ class InternalGraphQLAPIClass {
                 region: !customEndpointRegion ? region : customEndpointRegion,
             };
         }
-        const endpoint = customEndpoint || appSyncGraphqlEndpoint;
+        const endpoint = endpointOverride || customEndpoint || appSyncGraphqlEndpoint;
         if (!endpoint) {
             throw createGraphQLResultWithError(new GraphQLApiError(NO_ENDPOINT));
         }
@@ -12788,9 +12796,9 @@ class InternalGraphQLAPIClass {
     cancel(request, message) {
         return this._api.cancelREST(request, message);
     }
-    _graphqlSubscribe(amplify, { query, variables, authMode: explicitAuthMode }, additionalHeaders = {}, customUserAgentDetails, authToken) {
+    _graphqlSubscribe(amplify, { query, variables, authMode: authModeOverride, apiKey: apiKeyOverride, endpoint, }, additionalHeaders = {}, customUserAgentDetails, authToken) {
         const config = resolveConfig(amplify);
-        const initialAuthMode = explicitAuthMode || config?.defaultAuthMode || 'iam';
+        const initialAuthMode = authModeOverride || config?.defaultAuthMode || 'iam';
         // identityPool is an alias for iam. TODO: remove 'iam' in v7
         const authMode = initialAuthMode === 'identityPool' ? 'iam' : initialAuthMode;
         /**
@@ -12802,14 +12810,22 @@ class InternalGraphQLAPIClass {
          * with individual requests.
          */
         const { headers: libraryConfigHeaders } = resolveLibraryOptions(amplify);
-        return this.appSyncRealTime
+        const appSyncGraphqlEndpoint = endpoint ?? config?.endpoint;
+        // TODO: This could probably be an exception. But, lots of tests rely on
+        // attempting to connect to nowhere. So, I'm treating as the opposite of
+        // a Chesterton's fence for now. (A fence I shouldn't build, because I don't
+        // know why somethings depends on its absence!)
+        const memoKey = appSyncGraphqlEndpoint ?? 'none';
+        const realtimeProvider = this.appSyncRealTime.get(memoKey) ?? new AWSAppSyncRealTimeProvider();
+        this.appSyncRealTime.set(memoKey, realtimeProvider);
+        return realtimeProvider
             .subscribe({
             query: print(query),
             variables,
-            appSyncGraphqlEndpoint: config?.endpoint,
+            appSyncGraphqlEndpoint,
             region: config?.region,
             authenticationType: authMode,
-            apiKey: config?.apiKey,
+            apiKey: apiKeyOverride ?? config?.apiKey,
             additionalHeaders,
             authToken,
             libraryConfigHeaders,
@@ -12822,7 +12838,6 @@ class InternalGraphQLAPIClass {
         }));
     }
 }
-new InternalGraphQLAPIClass();
 
 /**
  * NOTE!
@@ -19885,7 +19900,7 @@ var FormFieldType;
     FormFieldType["List"] = "list";
 })(FormFieldType || (FormFieldType = {}));
 var DynamicInput = function (_a) {
-    var data = _a.data, path = _a.path, onChange = _a.onChange, label = _a.label, _b = _a.type, type = _b === void 0 ? "text" : _b, id = _a.id;
+    var data = _a.data, path = _a.path, onChange = _a.onChange, label = _a.label, _b = _a.type, type = _b === undefined ? "text" : _b, id = _a.id;
     var getValue = React.useCallback(function (obj, path) {
         try {
             var value = path.split(".").reduce(function (acc, part) { return acc && acc[part]; }, obj);
@@ -19983,19 +19998,19 @@ exports.FormFieldType = void 0;
     FormFieldType["List"] = "list";
 })(exports.FormFieldType || (exports.FormFieldType = {}));
 var DynamicForm = function (_a) {
-    var data = _a.data, onChange = _a.onChange, onSubmit = _a.onSubmit, _b = _a.options, options = _b === void 0 ? {} : _b, resource = _a.resource, model = _a.model;
+    var data = _a.data, onChange = _a.onChange, onSubmit = _a.onSubmit, _b = _a.options, options = _b === undefined ? {} : _b, resource = _a.resource, model = _a.model;
     var _c = React.useState(false), isNewRecord = _c[0], setIsNewRecord = _c[1];
     React.useEffect(function () {
         setIsNewRecord(!data.id);
     }, [data]);
     var renderFormFields = function (obj, parentKey) {
-        if (parentKey === void 0) { parentKey = ""; }
+        if (parentKey === undefined) { parentKey = ""; }
         return Object.entries(obj).flatMap(function (_a) {
             var _b;
             var key = _a[0], value = _a[1];
             var fullPath = parentKey ? "".concat(parentKey, ".").concat(key) : key;
             var fieldOptions = options[fullPath] || {};
-            var fieldType = fieldOptions.type || (resource && ((_b = resource.fields[fullPath]) === null || _b === void 0 ? void 0 : _b.type)) || exports.FormFieldType.Text;
+            var fieldType = fieldOptions.type || (resource && ((_b = resource.fields[fullPath]) === null || _b === undefined ? undefined : _b.type)) || exports.FormFieldType.Text;
             var fieldLabel = fieldOptions.label || key;
             if (typeof value === "object" && value !== null) {
                 if (Array.isArray(value)) {
@@ -20020,7 +20035,7 @@ var DynamicForm = function (_a) {
             ];
         });
     };
-    var handleSave = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var handleSave = function () { return __awaiter(undefined, undefined, undefined, function () {
         var original, draft, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -20067,7 +20082,7 @@ var DynamicForm = function (_a) {
             }
         });
     }); };
-    var handleDelete = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var handleDelete = function () { return __awaiter(undefined, undefined, undefined, function () {
         var toDelete, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -20118,7 +20133,7 @@ var Modal = function (_a) {
 };
 
 var SortableTable = function (_a) {
-    var data = _a.data, columns = _a.columns, _b = _a.filter, filter = _b === void 0 ? false : _b, filterBy = _a.filterBy, dataTestId = _a["data-testid"];
+    var data = _a.data, columns = _a.columns, _b = _a.filter, filter = _b === undefined ? false : _b, filterBy = _a.filterBy, dataTestId = _a["data-testid"];
     var _c = React.useState(null), sortColumn = _c[0], setSortColumn = _c[1];
     var _d = React.useState("asc"), sortDirection = _d[0], setSortDirection = _d[1];
     var _e = React.useState(""), filterValue = _e[0], setFilterValue = _e[1];
@@ -20169,13 +20184,13 @@ var SortableTable = function (_a) {
 };
 
 var DataTable = function (_a) {
-    var model = _a.model, columns = _a.columns, client = _a.client, _b = _a.subscribe, subscribe = _b === void 0 ? false : _b;
+    var model = _a.model, columns = _a.columns, client = _a.client, _b = _a.subscribe, subscribe = _b === undefined ? false : _b;
     var _c = React.useState([]), data = _c[0], setData = _c[1];
     var _d = React.useState(false), isModalOpen = _d[0], setIsModalOpen = _d[1];
     var _e = React.useState(null), editingRecord = _e[0], setEditingRecord = _e[1];
     var _f = React.useState(null), subscription = _f[0], setSubscription = _f[1];
     var _g = React.useState(false), initatedSub = _g[0], setInitiatedSub = _g[1];
-    var fetchData = React.useCallback(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var fetchData = React.useCallback(function () { return __awaiter(undefined, undefined, undefined, function () {
         var records, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -20222,7 +20237,7 @@ var DataTable = function (_a) {
         setIsModalOpen(false);
         setEditingRecord(null);
     };
-    var handleSave = function (newData) { return __awaiter(void 0, void 0, void 0, function () {
+    var handleSave = function (newData) { return __awaiter(undefined, undefined, undefined, function () {
         var error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -20277,7 +20292,7 @@ var DynamicComponent = function (_a) {
         return React.createElement(Component, __assign({}, props));
     }
     // Render children if they exist
-    var renderedChildren = children === null || children === void 0 ? void 0 : children.map(function (child, index) { return (React.createElement(DynamicComponent, { key: index, options: child })); });
+    var renderedChildren = children === null || children === undefined ? undefined : children.map(function (child, index) { return (React.createElement(DynamicComponent, { key: index, options: child })); });
     // Remove children from props to avoid conflicts
     props.children; var restProps = __rest(props, ["children"]);
     return React.createElement(Component, __assign({}, restProps), renderedChildren);
@@ -20285,7 +20300,7 @@ var DynamicComponent = function (_a) {
 
 var MenuLinks = function (_a) {
     var items = _a.items, label = _a.label, onNavigate = _a.onNavigate;
-    var handleClick = function (item) { return __awaiter(void 0, void 0, void 0, function () {
+    var handleClick = function (item) { return __awaiter(undefined, undefined, undefined, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -20344,7 +20359,7 @@ var MultiSelectField = function (_a) {
     };
     var getSelectedLabels = function () {
         return selectedOptions
-            .map(function (value) { var _a; return (_a = options.find(function (option) { return option.value === value; })) === null || _a === void 0 ? void 0 : _a.label; })
+            .map(function (value) { var _a; return (_a = options.find(function (option) { return option.value === value; })) === null || _a === undefined ? undefined : _a.label; })
             .filter(Boolean)
             .join(", ");
     };
@@ -20409,7 +20424,7 @@ function OrderedList(_a) {
         newItems.splice(targetIndex, 0, draggedItem);
         // Ensure all properties are preserved while updating order
         var reorderedItems = newItems.map(function (item, index) { return (__assign(__assign({}, item), { order: index })); });
-        onOrderChange === null || onOrderChange === void 0 ? void 0 : onOrderChange(reorderedItems);
+        onOrderChange === null || onOrderChange === undefined ? undefined : onOrderChange(reorderedItems);
     };
     var handleDragEnter = function (e) {
         var targetIndex = getTargetIndex(e);
@@ -20425,7 +20440,7 @@ function OrderedList(_a) {
         }
         setDragging(false);
         setDraggedIndex(null);
-        (_a = dragNode.current) === null || _a === void 0 ? void 0 : _a.removeEventListener("dragend", handleDragEnd);
+        (_a = dragNode.current) === null || _a === undefined ? undefined : _a.removeEventListener("dragend", handleDragEnd);
         dragItem.current = null;
         dragNode.current = null;
     };

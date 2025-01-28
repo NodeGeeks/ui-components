@@ -47,3 +47,6 @@ next-env.d.ts
 amplify_outputs*
 amplifyconfiguration*
 example/.npm/
+
+# dist
+/dist

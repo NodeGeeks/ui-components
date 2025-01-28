@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "rollup -c",
+    "clean": "rm -r -fo node_modules,dist,package-lock.json",
     "test": "jest",
     "lint": "eslint . --fix",
     "prepare": "npm run build"
