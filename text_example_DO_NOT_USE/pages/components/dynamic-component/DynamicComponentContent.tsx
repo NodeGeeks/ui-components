@@ -1,11 +1,20 @@
-import { Flex, Heading } from "@aws-amplify/ui-react";
-import { DynamicComponent } from "@components/dynamic-component";
-import React from "react";
+import type { ReactElement } from 'react';
+import dynamic from 'next/dynamic';
 
-const DynamicComponentExample: React.FC = () => {
+import * as AmplifyUI from '@aws-amplify/ui-react';
+
+const DynamicComponent = dynamic(() => 
+  import("../../../components/dynamic-component/DynamicBaseComponent").then(mod => mod.default),
+  { 
+    ssr: false,
+    loading: () => <div>Loading dynamic component...</div>
+  }
+);
+
+export default function DynamicComponentContent(): ReactElement {
   return (
-    <Flex direction="column" gap="1rem">
-      <Heading level={2}>Dynamic Component Example</Heading>
+    <AmplifyUI.Flex direction="column" gap="1rem">
+      <AmplifyUI.Heading level={2}>Dynamic Component Example</AmplifyUI.Heading>
 
       <DynamicComponent
         options={{
@@ -57,8 +66,6 @@ const DynamicComponentExample: React.FC = () => {
           ],
         }}
       />
-    </Flex>
+    </AmplifyUI.Flex>
   );
-};
-
-export default DynamicComponentExample;
+}

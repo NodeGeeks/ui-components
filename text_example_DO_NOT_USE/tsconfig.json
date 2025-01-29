@@ -7,16 +7,19 @@
       "esnext"
     ],
     "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
     "module": "esnext",
-    "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "resolveJsonModule": true,
-    "jsx": "preserve",
     "incremental": true,
     "paths": {
       "@components/*": [
@@ -27,6 +30,8 @@
       ]
     },
     "baseUrl": ".",
+    "importsNotUsedAsValues": "remove",
+    "preserveValueImports": false,
     "types": [
       "jest",
       "ts-jest",

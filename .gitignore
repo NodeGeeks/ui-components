@@ -1,27 +1,23 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/example/node_modules
-/.pnp
+node_modules
+.pnp
 .pnp.js
 .yarn/install-state.gz
 
 #logs
-/.npm/
+.npm
 
 # testing
 /coverage
 
 # next.js
-/.next/
-/example/.next/
-/example/out/
-/out/
+.next
+out
 
 # production
-/build
-/example/build
+build
 
 # misc
 .DS_Store
@@ -49,4 +45,4 @@ amplifyconfiguration*
 example/.npm/
 
 # dist
-/dist
+dist
