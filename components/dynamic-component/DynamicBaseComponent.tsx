@@ -1,27 +1,20 @@
-import type { ComponentType } from 'react';
 import dynamic from 'next/dynamic';
+import type { ComponentType } from 'react';
+import React from 'react';
 
 // Import the entire Amplify UI React package
-const AmplifyComponents = dynamic(() => 
-  import('@aws-amplify/ui-react').then(mod => {
-    return {
-      Button: mod.Button,
-      Card: mod.Card,
-      Flex: mod.Flex,
-      Heading: mod.Heading,
-      Text: mod.Text,
-      View: mod.View,
-      Image: mod.Image,
-      Tabs: mod.Tabs,
-      TextField: mod.TextField,
-      SelectField: mod.SelectField
-    };
-  }), 
-  { 
-    ssr: false,
-    loading: () => <div>Loading component...</div>
-  }
-);
+const AmplifyComponents = {
+  Button: dynamic(() => import('@aws-amplify/ui-react').then(mod => mod.Button), { ssr: false, loading: () => <div>Loading component...</div> }),
+  Card: dynamic(() => import('@aws-amplify/ui-react').then(mod => mod.Card), { ssr: false, loading: () => <div>Loading component...</div> }),
+  Flex: dynamic(() => import('@aws-amplify/ui-react').then(mod => mod.Flex), { ssr: false, loading: () => <div>Loading component...</div> }),
+  Heading: dynamic(() => import('@aws-amplify/ui-react').then(mod => mod.Heading), { ssr: false, loading: () => <div>Loading component...</div> }),
+  Text: dynamic(() => import('@aws-amplify/ui-react').then(mod => mod.Text), { ssr: false, loading: () => <div>Loading component...</div> }),
+  View: dynamic(() => import('@aws-amplify/ui-react').then(mod => mod.View), { ssr: false, loading: () => <div>Loading component...</div> }),
+  Image: dynamic(() => import('@aws-amplify/ui-react').then(mod => mod.Image), { ssr: false, loading: () => <div>Loading component...</div> }),
+  Tabs: dynamic(() => import('@aws-amplify/ui-react').then(mod => mod.Tabs), { ssr: false, loading: () => <div>Loading component...</div> }),
+  TextField: dynamic(() => import('@aws-amplify/ui-react').then(mod => mod.TextField), { ssr: false, loading: () => <div>Loading component...</div> }),
+  SelectField: dynamic(() => import('@aws-amplify/ui-react').then(mod => mod.SelectField), { ssr: false, loading: () => <div>Loading component...</div> })
+};
 
 interface DynamicComponentProps {
   options: {
